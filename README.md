@@ -14,7 +14,8 @@ Aplikacija ParkSearch omogoča uporabniku najti najbližje parkirno mesto v pame
 
 ## 3. Ogrodje in razvojno okolje
 
-`TODO`
+Aplikacija bo narejena v programskem jeziku Java. Za programiranje bo uporabljeno razvojno okolje Visual Studio Code. Uporabljene bodo tudi tehnologije Docker, Node.js, REST, GraphQL in Postman.
+
 
 ## 4. Shema arhitekture
 
