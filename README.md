@@ -19,7 +19,7 @@ Aplikacija bo narejena v programskem jeziku Java. Za programiranje bo uporabljen
 
 ## 4. Shema arhitekture
 
-`TODO - Mojca`
+![Shema arhitekture](architecture.jpg){ width=80% }
 
 ## 5. Seznam funkcionalnosti mikrostoritev
 
