@@ -19,7 +19,7 @@ Aplikacija bo narejena v programskem jeziku Java. Za programiranje bo uporabljen
 
 ## 4. Shema arhitekture
 
-![Shema arhitekture](architecture.jpg){ width=80% }
+![Shema arhitekture](architecture_cropped.jpg){ width=80% }
 
 ## 5. Seznam funkcionalnosti mikrostoritev
 
@@ -36,5 +36,5 @@ Aplikacija bo narejena v programskem jeziku Java. Za programiranje bo uporabljen
 - **Iskanje parkirišč:** uporabnik lahko išče parkirišča na podlagi izbranih parametrov, prikazana so parkirišča ki se z temi parametri ujemajo
 - **Iskanje parkirišč v bližini uporabnika:** uporabnik pridobi informacije o parkiriščih, ki so v neposredni bližini njegove trenutne lokacije
 - **Izbira časa parkiranja:** uporabnik na izbranem parkirišču določi, koliko časa bo imel avto tam parkiran
-- **Plačevanje parkirnine:** uporabnik preko aplikacije plača parkirnino, podatki o ceni so pridobljeni iz parkomata
+- **Plačevanje parkirnine:** uporabnik preko aplikacije plača parkirnino
 - **Branje sporočil:** uporabnik lahko bere sporočila, prejeta od aplikacije (npr. opozorilo o ne-plačani parkirnini)
