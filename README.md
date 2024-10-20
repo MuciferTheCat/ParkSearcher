@@ -6,7 +6,7 @@ Aplikacijo sva zasnovala tako, da jo lahko v prihodnje še nadgradiva z mobilno 
 
 ## 1. Člani skupine in številka projektne skupine
 
-Člana skupine `TODO` sva Mojca Kompara in Andraž Sovinec (projektna skupina št. 13).
+Člana skupine Ravioli sva Mojca Kompara in Andraž Sovinec (projektna skupina št. 13).
 
 ## 2. Kratek opis projekta
 
