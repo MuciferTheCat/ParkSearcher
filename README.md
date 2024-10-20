@@ -10,7 +10,7 @@ Aplikacijo sva zasnovala tako, da jo lahko v prihodnje še nadgradiva z mobilno 
 
 ## 2. Kratek opis projekta
 
-Aplikacija ParkSearch omogoča uporabniku najti najbližje parkirno mesto v pametnem mestu. Izbira lahko med različnimi načini iskanja: po številu praznih parkirnih mest, bližina parkirišča željene lokacije. `TODO`
+Aplikacija ParkSearch omogoča uporabniku najti najbližjbližnja parkirna mesta. Izbira lahko med različnimi načini iskanja: po številu praznih parkirnih mest, bližina parkirišča željene lokacije in podobno. Parkirišča lahko išče glede na svojo trenutno lokacijo, ali pa vnese nek naslov, ki je nato uporabljen kot izhodišče za iskanje. Uporabnik lahko na izbranem parkirišču vnese koliko časa bo tam parkiral. Tudi plačilo parkirnine je možno kar preko aplikacije.
 
 ## 3. Ogrodje in razvojno okolje
 
