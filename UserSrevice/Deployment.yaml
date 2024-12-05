@@ -3,20 +3,20 @@ kind: Deployment
 metadata:
   name: user-service
   labels:
-    app: test-user-service
+    app: user-service
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: test-user-service
+      app: user-service
   template:
     metadata:
       labels:
-        app: test-user-service
+        app: user-service
     spec:
       containers:
         - name: user-service
-          image: andrazsovinec/test-user-service:v1
+          image: andrazsovinec/user-service:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -63,9 +63,9 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongodb # Specifies the name of the statefulset
+  name: mongodb
 spec:
-  serviceName: "mongodb-service" # Specifies the service to use
+  serviceName: "mongodb-service"
   replicas: 1
   selector:
     matchLabels:
