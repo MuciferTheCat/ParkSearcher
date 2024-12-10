@@ -2,3 +2,7 @@ UserSrevice/node_modules/
 UserSrevice/package-lock.json
 UserSrevice/package.json
 UserSrevice/.env
+ParkingService/node_modules/
+ParkingService/package-lock.json
+ParkingService/package.json
+ParkingService/.env
