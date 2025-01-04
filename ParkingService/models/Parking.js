@@ -15,6 +15,10 @@ const parkingSchema = new mongoose.Schema({
       required: true,
       unique: true,
     },
+    duration: {
+      type: Number,
+      required: true,
+    },
     startTime: {
       type: Date,
       default: Date.now,

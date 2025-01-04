@@ -6,3 +6,7 @@ ParkingService/node_modules/
 ParkingService/package-lock.json
 ParkingService/package.json
 ParkingService/.env
+PaymentService/node_modules/
+PaymentService/package-lock.json
+PaymentService/package.json
+PaymentService/.env
