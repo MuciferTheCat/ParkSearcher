@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const parkingController = require('../controllers/parkingController');
+const passport = require('passport')
 
-router.post('/create', parkingController.addParking);
+router.post('/create', passport.authenticate('jwt', { session: false }), parkingController.addParking);
 
-router.put('/update', parkingController.updateParking);
+router.put('/update', passport.authenticate('jwt', { session: false }), parkingController.updateParking);
 
-router.get('/get', parkingController.getParking);
+router.get('/get', passport.authenticate('jwt', { session: false }), parkingController.getParking);
 
-router.post('/end', parkingController.concludeParking);
+router.post('/end', passport.authenticate('jwt', { session: false }), parkingController.concludeParking);
 
 module.exports = router;

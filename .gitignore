@@ -1,12 +1,11 @@
+**/node_modules
 UserSrevice/node_modules/
-UserSrevice/package-lock.json
-UserSrevice/package.json
 UserSrevice/.env
 ParkingService/node_modules/
-ParkingService/package-lock.json
-ParkingService/package.json
 ParkingService/.env
 PaymentService/node_modules/
-PaymentService/package-lock.json
-PaymentService/package.json
 PaymentService/.env
+SearchService/node_modules/
+SearchService/.env
+userservice-frontend/node_modules/
+userservice-frontend/.env

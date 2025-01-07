@@ -3,7 +3,7 @@ const cookies = require('cookie-parser')
 const cors = require('cors')
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const paymentRoutes = require('./routes/paymentRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ app.use(cookies())
 
 connectDB();
 
-app.use('/api/payment', paymentRoutes);
+app.use('/api/user', userRoutes);
 
 var passport = require('passport')
 var JwtStrategy = require('passport-jwt').Strategy;
@@ -39,7 +39,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   }
 }));
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Port: ${PORT}`);
 });

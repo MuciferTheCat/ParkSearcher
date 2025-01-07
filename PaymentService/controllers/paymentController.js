@@ -1,7 +1,8 @@
 const Payment = require('../models/Payment');
 
 exports.addPayment = async (request, result) => {
-  const { email, amount } = request.body;
+  const { amount } = request.body;
+  email = req.user.email
 
   try {
     isActive = true 
@@ -50,7 +51,8 @@ exports.deactivatePayment = async (request, result) => {
 };
 
 exports.getPayments = async (request, result) => {
-  const { email } = request.body;
+  //const { email } = request.body;
+  email = req.user.email
 
   try {
     console.log('Start');

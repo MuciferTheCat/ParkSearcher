@@ -1,7 +1,8 @@
 const Parking = require('../models/Parking');
 
 exports.addParking = async (request, result) => {
-  const { parkplaceID, email, carRegistration, duration } = request.body;
+  const { parkplaceID, carRegistration, duration } = request.body;
+  email = req.user.email
 
   try {
     if (await Parking.findOne({ email })) {
@@ -29,7 +30,8 @@ exports.addParking = async (request, result) => {
 };
 
 exports.updateParking = async (request, result) => {
-  const { email, duration } = request.body;
+  const { duration } = request.body;
+  email = req.user.email
 
   try {
     const parkingEntry = await Parking.findOne({ email });
@@ -64,7 +66,8 @@ exports.updateParking = async (request, result) => {
 };
 
 exports.getParking = async (request, result) => {
-  const { email } = request.body;
+  //const { email } = request.body;
+  email = req.user.email
 
   try {
     const parkingEntry = await Parking.findOne({ email });
@@ -83,7 +86,8 @@ exports.getParking = async (request, result) => {
 };
 
 exports.concludeParking = async (req, res) => {
-  const { email } = req.body;
+  //const { email } = req.body;
+  email = req.user.email
 
   try {
     const finishedParking = await Parking.findOneAndUpdate({ email }, { endTime: Date.now() }, { new: true });

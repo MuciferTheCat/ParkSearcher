@@ -1,6 +1,6 @@
 FROM fluent/fluentd:v1.15.3-1.0
 
-ENV FLUENTD_CONF="fluent.conf"
+ENV FLUENTD_CONF="fluentd.conf"
 
 COPY fluentd.conf /fluentd/etc/fluent.conf
 
