@@ -1,4 +1,7 @@
+// src/components/user/UserProfile.tsx
+
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { getUserProfile } from '../../services/api/userService';
 import { User } from '../../services/types/user';
 
@@ -16,9 +19,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId, token }) => {
             try {
                 const userData = await getUserProfile(userId, token);
                 setUser(userData);
-                setError(null);
             } catch (err) {
-                setError('Failed to load user profile.');
+                setError('Failed to fetch user profile.');
             }
         };
 
