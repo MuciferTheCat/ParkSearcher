@@ -4,7 +4,7 @@ import { RegisterData } from '../../services/types/user';
 
 const Register: React.FC = () => {
     const [formData, setFormData] = useState<RegisterData>({
-        name: '',
+        username: '',
         email: '',
         password: '',
     });
@@ -24,6 +24,7 @@ const Register: React.FC = () => {
             setError(null);
         } catch (err) {
             setError('Registration failed. Please try again.');
+            console.log(err);
         }
     };
 
@@ -36,7 +37,7 @@ const Register: React.FC = () => {
             <input
                 type="text"
                 name="name"
-                value={formData.name}
+                value={formData.username}
                 onChange={handleChange}
                 required
             />
