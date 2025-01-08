@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-service
+  name: search-service
   labels:
-    app: payment-service
+    app: search-service
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: payment-service
+      app: search-service
   template:
     metadata:
       labels:
-        app: payment-service
+        app: search-service
     spec:
       containers:
-        - name: payment-service
-          image: andrazsovinec/payment-service:v1
+        - name: search-service
+          image: andrazsovinec/search-service:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -24,73 +24,4 @@ spec:
             - name: MONGO_URI
               value: "mongodb://mongodb-service:27017/"
             - name: JWT_SECRET
-              value: "something rather"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mongodb-pv
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: /data/mongodb
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mongodb-pvc
-spec:
-  storageClassName: ""
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongodb-service
-spec:
-  selector:
-    app: mongodb
-  ports:
-    - port: 27017
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: mongodb
-spec:
-  serviceName: "mongodb-service"
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mongodb
-  template:
-    metadata:
-      labels:
-        app: mongodb
-    spec:
-      containers:
-      - name: mongodb
-        image: mongo:latest
-        command:
-        - mongod
-        - "--bind_ip_all"
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - name: mongodb-storage
-          mountPath: /data/db
-  volumeClaimTemplates:
-  - metadata:
-      name: mongodb-storage
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 5Gi
+              value: "my_key"

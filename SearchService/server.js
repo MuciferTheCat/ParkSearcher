@@ -2,8 +2,8 @@ const express = require('express');
 const cookies = require('cookie-parser')
 const cors = require('cors')
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
-const paymentRoutes = require('./routes/paymentRoutes');
+//const connectDB = require('./config/db');
+const paymentRoutes = require('./routes/searchRoutes');
 
 dotenv.config();
 
@@ -14,10 +14,11 @@ app.use(cors())
 
 app.use(cookies())
 
-connectDB();
+//connectDB();
 
-app.use('/api/payment', paymentRoutes);
+app.use('/api/search', paymentRoutes);
 
+/*
 var passport = require('passport')
 var JwtStrategy = require('passport-jwt').Strategy;
 var opts = {}
@@ -38,8 +39,9 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
     return done(null, false)
   }
 }));
+*/
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => {
   console.log(`Port: ${PORT}`);
 });

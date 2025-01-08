@@ -24,7 +24,7 @@ spec:
             - name: MONGO_URI
               value: "mongodb://mongodb-service:27017/"
             - name: JWT_SECRET
-              value: "something rather"
+              value: "my_key"
 ---
 apiVersion: v1
 kind: PersistentVolume
