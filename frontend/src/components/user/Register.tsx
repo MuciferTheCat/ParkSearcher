@@ -36,7 +36,7 @@ const Register: React.FC = () => {
             <label>Name:</label>
             <input
                 type="text"
-                name="name"
+                name="username"
                 value={formData.username}
                 onChange={handleChange}
                 required

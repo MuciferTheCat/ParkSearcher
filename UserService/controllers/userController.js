@@ -57,7 +57,7 @@ exports.loginUser = async (req, res) => {
     const jwtoken = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: '12h' });
 
     console.log('Login was succesful')
-    res.cookie('jwt', jwtoken, {httpOnly: true, maxAge: 12*60*60*1000}).status(200).json({ message: 'Login successful', jwtoken });
+    res.cookie('jwt', jwtoken, {httpOnly: true, maxAge: 12*60*60*1000}).status(200).json({ message: 'Login successful', email: user.email, username: user.username, jwtoken });
   } catch (err) {
     console.log('Server error')
     res.status(500).json({ message: 'Server error', error: err });
