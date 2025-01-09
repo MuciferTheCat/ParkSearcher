@@ -6,18 +6,19 @@ export interface ParkingSpace {
     tags: Record<string, string>;
 }
 
-export const getParkingSpaces = async (
-    lat: number,
-    lng: number,
-    radius: number = 1000
-): Promise<ParkingSpace[]> => {
-    const baseUrl = 'http://localhost:5000/api/parking';
+export const getParkingSpaces = async (lat: number, lng: number, radius: number = 500) => {
+    const baseUrl = 'http://localhost:5003/api/search/find';
     const queryParams = `?lat=${lat}&lng=${lng}&radius=${radius}`;
 
-    const response = await fetch(`${baseUrl}${queryParams}`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch parking spaces');
+    try {
+        const response = await fetch(`${baseUrl}${queryParams}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch parking spaces');
+        }
+        const data = await response.json();
+        return data.parkingSpaces;
+    } catch (error) {
+        console.error('Error fetching parking spaces:', error);
+        throw error;
     }
-    const data = await response.json();
-    return data.parkingSpaces;
 };
