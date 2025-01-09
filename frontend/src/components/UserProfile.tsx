@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getUserProfile } from '../../services/api/userService';
-import { User } from '../../services/types/user';
+import { getUserProfile } from '../services/api/userService';
+import { User } from '../services/types/user';
 
 interface UserProfileProps {
     userId: string;

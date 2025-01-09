@@ -1,8 +1,8 @@
 // src/components/user/Login.tsx
 
 import React, { useState } from 'react';
-import { loginUser } from '../../services/api/userService';
-import { LoginData, AuthResponse } from '../../services/types/user';
+import { loginUser } from '../services/api/userService';
+import { LoginData, AuthResponse } from '../services/types/user';
 
 interface LoginProps {
     onLogin: (token: string, userId: string) => void;

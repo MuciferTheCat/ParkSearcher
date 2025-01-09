@@ -1,3 +1,5 @@
+// src/services/api/searchService.ts
+
 export interface ParkingSpace {
     id: string;
     center: { lat: number; lon: number };
@@ -7,7 +9,7 @@ export interface ParkingSpace {
 export const getParkingSpaces = async (
     lat: number,
     lng: number,
-    radius: number = 500
+    radius: number = 1000
 ): Promise<ParkingSpace[]> => {
     const baseUrl = 'http://localhost:5000/api/parking';
     const queryParams = `?lat=${lat}&lng=${lng}&radius=${radius}`;

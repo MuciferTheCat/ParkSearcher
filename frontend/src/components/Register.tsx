@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../services/api/userService';
-import { RegisterData } from '../../services/types/user';
+import { registerUser } from '../services/api/userService';
+import { RegisterData } from '../services/types/user';
 
 const Register: React.FC = () => {
     const [formData, setFormData] = useState<RegisterData>({
