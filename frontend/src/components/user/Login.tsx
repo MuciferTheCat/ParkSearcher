@@ -1,3 +1,5 @@
+// src/components/user/Login.tsx
+
 import React, { useState } from 'react';
 import { loginUser } from '../../services/api/userService';
 import { LoginData, AuthResponse } from '../../services/types/user';
@@ -11,7 +13,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     const [error, setError] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -20,7 +23,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             const response: AuthResponse = await loginUser(formData);
             onLogin(response.token, response.user.id);
             setError(null);
-            // Navigate to profile (if using a router library with history)
         } catch (err) {
             setError('Invalid email or password.');
         }
@@ -31,9 +33,21 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             <h2>Login</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <label>Email:</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} />
+            <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+            />
             <label>Password:</label>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} />
+            <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+            />
             <button type="submit">Login</button>
         </form>
     );
