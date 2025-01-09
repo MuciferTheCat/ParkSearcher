@@ -4,6 +4,7 @@ import { RegisterData, LoginData, User, AuthResponse } from '../types/user';
 const API_BASE_URL = import.meta.env.VITE_USER_SERVICE_URL;
 
 export const registerUser = async (data: RegisterData): Promise<AuthResponse> => {
+    console.log(data)
     const response = await axios.post(`${API_BASE_URL}/register`, data);
     return response.data;
 };
