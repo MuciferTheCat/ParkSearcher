@@ -3,7 +3,7 @@ const cookies = require('cookie-parser')
 const cors = require('cors')
 const dotenv = require('dotenv');
 //const connectDB = require('./config/db');
-const paymentRoutes = require('./routes/searchRoutes');
+const searchRoutes = require('./routes/searchRoutes');
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ app.use(cookies())
 
 //connectDB();
 
-app.use('/api/search', paymentRoutes);
+app.use('/api/search', searchRoutes);
 
 /*
 var passport = require('passport')
