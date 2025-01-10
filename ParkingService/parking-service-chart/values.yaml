@@ -1,15 +1,15 @@
-replicaCount: 1
+replicaCount: 3
 
 image:
-  repository: andrazsovinec/user-service
+  repository: andrazsovinec/parking-service
   tag: v1
   pullPolicy: Always
 
 service:
-  port: 5000
+  port: 5001
 
 mongodb:
-  #uri: "mongodb://mongodb-service:27017/"
+  uri: "mongodb://mongodb-service:27017/"
   storageSize: 5Gi
   replicaCount: 1
 

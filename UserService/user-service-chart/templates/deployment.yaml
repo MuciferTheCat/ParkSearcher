@@ -31,6 +31,6 @@ spec:
         - containerPort: {{ .Values.service.port }}
         env:
         - name: MONGO_URI
-          value: "{{ .Values.mongodb.uri }}"
+          value: "mongodb://{{ .Release.Name }}-mongodb-service:27017/"
         - name: JWT_SECRET
           value: "{{ .Values.env.JWT_SECRET }}"

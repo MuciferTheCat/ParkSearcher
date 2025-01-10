@@ -5,7 +5,7 @@ const passport = require('passport')
 
 router.post('/register', userController.registerUser);
 
-router.get('/login', userController.loginUser);
+router.post('/login', userController.loginUser);
 
 router.put('/admin', passport.authenticate('jwt', { session: false }), userController.makeAdmin);
 

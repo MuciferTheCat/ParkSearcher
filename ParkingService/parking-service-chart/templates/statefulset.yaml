@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-mongodb
 spec:
-  serviceName: "{{ include "user-service.fullname" . }}-mongodb"
+  serviceName: "mongodb-service"
   replicas: {{ .Values.mongodb.replicaCount }}
   selector:
     matchLabels:
