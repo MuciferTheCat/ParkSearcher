@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 
 interface HeaderProps {
     isLoggedIn: boolean;
@@ -15,84 +16,54 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onLogout }) => {
     };
 
     return (
-        <header style={styles.header}>
-            <div style={styles.titleContainer}>
-                <h1 style={styles.title}>Parking Finder</h1>
-            </div>
-            <nav style={styles.nav}>
-                <Link to="/" style={styles.link}>
-                    Home
-                </Link>
-                {!isLoggedIn ? (
-                    <>
-                        <Link to="/login" style={styles.link}>
-                            Login
-                        </Link>
-                        <Link to="/register" style={styles.link}>
-                            Register
-                        </Link>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/profile" style={styles.link}>
-                            Profile
-                        </Link>
-                        <button onClick={handleLogout} style={styles.logoutButton}>
-                            Logout
-                        </button>
-                    </>
-                )}
-            </nav>
-        </header>
+        <Navbar expand="lg" className="shadow-sm rounded mb-4 mx-auto w-100" style={{ backgroundColor: '#DBB1BC', maxWidth: '1200px' }}>
+            <Container>
+                <Navbar.Brand
+                    href="/"
+                    className="fw-bold"
+                    style={{
+                        color: '#58504A',
+                        fontSize: '2rem', // Adjusted title size
+                        letterSpacing: '1px',
+                    }}
+                >
+                    Parking Finder
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="ms-auto">
+                        <Nav.Link as={Link} to="/" className="fw-bold" style={{ color: '#58504A' }}>
+                            Home
+                        </Nav.Link>
+                        {!isLoggedIn ? (
+                            <>
+                                <Nav.Link as={Link} to="/login" className="fw-bold" style={{ color: '#8F95D3' }}>
+                                    Login
+                                </Nav.Link>
+                                <Nav.Link as={Link} to="/register" className="fw-bold" style={{ color: '#8F95D3' }}>
+                                    Register
+                                </Nav.Link>
+                            </>
+                        ) : (
+                            <>
+                                <Nav.Link as={Link} to="/profile" className="fw-bold" style={{ color: '#58504A' }}>
+                                    Profile
+                                </Nav.Link>
+                                <Nav.Link
+                                    as="button"
+                                    onClick={handleLogout}
+                                    className="btn text-white fw-bold ms-2"
+                                    style={{ backgroundColor: '#8F95D3' }}
+                                >
+                                    Logout
+                                </Nav.Link>
+                            </>
+                        )}
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
-};
-
-const styles = {
-    header: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-    },
-    titleContainer: {
-        backgroundColor: '#DBB1BC',
-        padding: '1rem',
-        textAlign: 'left',
-        paddingLeft: '2rem',
-    },
-    title: {
-        margin: 0,
-        fontSize: '2.5rem',
-        fontWeight: 'bold',
-        letterSpacing: '2px',
-        textTransform: 'uppercase',
-        color: '#8F95D3',
-    },
-    nav: {
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#D3C4E3',
-        padding: '0.5rem 1rem',
-    },
-    link: {
-        textDecoration: 'none',
-        color: '#58504A',
-        marginRight: '2rem',
-        fontWeight: 'bold',
-        fontSize: '1.2rem',
-        transition: 'color 0.3s ease',
-    },
-    logoutButton: {
-        backgroundColor: '#8F95D3',
-        color: '#fff',
-        border: 'none',
-        padding: '0.5rem 1rem',
-        fontSize: '1.2rem',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
-    },
 };
 
 export default Header;

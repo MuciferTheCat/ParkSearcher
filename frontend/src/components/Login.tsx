@@ -30,73 +30,36 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={styles.form}>
-            <h2>Login</h2>
-            {error && <p style={styles.error}>{error}</p>}
-            <label style={styles.label}>Email:</label>
-            <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                style={styles.input}
-            />
-            <label style={styles.label}>Password:</label>
-            <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                style={styles.input}
-            />
-            <button type="submit" style={styles.button}>
-                Login
-            </button>
-        </form>
+        <div className="container-fluid d-flex justify-content-center align-items-center mt-5">
+            <div className="bg-white p-4 rounded shadow-sm w-100" style={{ maxWidth: '400px' }}>
+                <form onSubmit={handleSubmit}>
+                    <h2 className="text-center">Login</h2>
+                    {error && <p className="text-danger text-center">{error}</p>}
+                    <label>Email:</label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="form-control mb-3"
+                    />
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                        className="form-control mb-3"
+                    />
+                    <button type="submit" className="btn btn-primary w-100">
+                        Login
+                    </button>
+                </form>
+            </div>
+        </div>
     );
-};
-
-const styles = {
-    form: {
-        maxWidth: '400px',
-        margin: '0 auto',
-        textAlign: 'center',
-        padding: '1rem',
-        backgroundColor: '#f9f9f9',
-        borderRadius: '10px',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-    },
-    label: {
-        display: 'block',
-        marginBottom: '0.5rem',
-        textAlign: 'left',
-        fontWeight: 'bold',
-    },
-    input: {
-        width: '100%',
-        padding: '0.5rem',
-        fontSize: '1rem',
-        marginBottom: '1rem',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        boxSizing: 'border-box',
-    },
-    button: {
-        padding: '0.5rem 1rem',
-        fontSize: '1rem',
-        backgroundColor: '#8F95D3',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
-    },
-    error: {
-        color: 'red',
-        marginBottom: '1rem',
-    },
 };
 
 export default Login;

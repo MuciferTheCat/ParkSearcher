@@ -68,6 +68,7 @@ const Parking: React.FC<ParkingProps> = ({ isLoggedIn, token }) => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     parkplaceID: parkingData.id,
                     carRegistration,
