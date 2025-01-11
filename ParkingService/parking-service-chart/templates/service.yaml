@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "parking-service.fullname" . }}
   labels:
-    {{- include "parking-service.labels" . | nindent 4 }}
+    app: {{- include "parking-service.labels" . | nindent 4 }}-mongodb
 spec:
   selector:
     {{- include "parking-service.labels" . | nindent 4 }}
@@ -11,4 +11,4 @@ spec:
     {{- toYaml . | nindent 4 }}
     {{- end }}
   ports:
-    - port: 27017
+    - port: {{ .Values.service.port }}

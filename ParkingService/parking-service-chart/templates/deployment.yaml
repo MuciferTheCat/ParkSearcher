@@ -30,7 +30,9 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
           env:
+          - name: RABBITMQ_HOST
+            value: "amqp://rabbitmq:5672"
           - name: MONGO_URI
-            value: "{{ .Values.mongodb.uri }}"
+            value: "mongodb://{{ .Release.Name }}-mongodb-service:27017/"
           - name: JWT_SECRET
             value: "{{ .Values.env.JWT_SECRET }}"

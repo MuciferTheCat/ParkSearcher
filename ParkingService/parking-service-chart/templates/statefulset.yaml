@@ -3,15 +3,15 @@ kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-mongodb
 spec:
-  serviceName: "mongodb-service"
+  serviceName: "{{ include "parking-service.fullname" . }}-mongodb"
   replicas: {{ .Values.mongodb.replicaCount }}
   selector:
     matchLabels:
-      app: mongodb
+      app: {{ include "parking-service.fullname" . }}-mongodb
   template:
     metadata:
       labels:
-        app: mongodb
+        app: {{ include "parking-service.fullname" . }}-mongodb
     spec:
       containers:
       - name: mongodb

@@ -1,9 +1,13 @@
 // messageWorker.js
 const amqp = require('amqplib');
 
+const rabbitmqHost = process.env.RABBITMQ_HOST || 'amqp://localhost';
+
+console.log(rabbitmqHost)
+
 async function listenForUserEvents() {
     try {
-        const connection = await amqp.connect('amqp://localhost');
+        const connection = await amqp.connect(rabbitmqHost);
         const channel = await connection.createChannel();
         const queue = 'user.registered';
 

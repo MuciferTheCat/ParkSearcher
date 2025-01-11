@@ -4,6 +4,8 @@ const amqp = require('amqplib');
 //const JWT_SECRET = 'your_jwt_secret_key';
 const JWT_SECRET = process.env.JWT_SECRET;
 
+const rabbitmqHost = process.env.RABBITMQ_HOST || 'amqp://localhost';
+
 exports.registerUser = async (req, res) => {
     const { username, email, password } = req.body;
   
@@ -18,8 +20,10 @@ exports.registerUser = async (req, res) => {
   
       res.status(201).json({ message: 'User registered successfully' });
 
+      console.log(rabbitmqHost)
+
       try {
-        const connection = await amqp.connect('amqp://localhost');
+        const connection = await amqp.connect(rabbitmqHost);
         const channel = await connection.createChannel();
         const queue = 'user.registered';
 

@@ -2,7 +2,7 @@ const Parking = require('../models/Parking');
 
 exports.addParking = async (request, result) => {
   const { parkplaceID, carRegistration, duration } = request.body;
-  email = req.user.email
+  email = request.user.email
 
   try {
     if (await Parking.findOne({ email })) {
