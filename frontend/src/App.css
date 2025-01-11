@@ -32,9 +32,8 @@ footer {
 }
 
 .leaflet-container {
-  height: 500px;
+  height: 60vh; /* Dynamically adjust height */
   width: 100%;
-  margin: 1rem auto;
   border: 1px solid #ccc;
   border-radius: 8px;
 }

@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onLogout }) => {
     };
 
     return (
-        <Navbar expand="lg" className="shadow-sm rounded mb-4 mx-auto w-100" style={{ backgroundColor: '#DBB1BC', maxWidth: '1200px' }}>
+        <Navbar expand="lg" className="shadow-sm rounded mb-4 mx-auto w-100" style={{ backgroundColor: '#DBB1BC' }}>
             <Container>
                 <Navbar.Brand
                     href="/"

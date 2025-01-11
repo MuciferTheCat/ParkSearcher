@@ -1,40 +1,23 @@
-// src/services/api/searchService.ts
+import { ParkingSpace } from "../types/search";
 
-export interface ParkingSpace {
-  id: string;
-  center: { lat: number; lon: number };
-  tags: Record<string, string>;
-}
+const API_BASE_URL = import.meta.env.VITE_SEARCH_SERVICE_URL;
 
 export const getParkingSpaces = async (
   lat: number,
   lng: number,
   radius: number = 500
 ): Promise<ParkingSpace[]> => {
-  const baseUrl = "http://localhost:5003/api/search/find";
-
-  try {
-    const response = await fetch(baseUrl, {
-      method: "POST", // Changed to POST
-      headers: {
-        "Content-Type": "application/json", // Set Content-Type to application/json
-      },
-      body: JSON.stringify({
-        // Include the body with the JSON payload
-        lat,
-        lng,
-        radius,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch parking spaces");
-    }
-
-    const data = await response.json();
-    return data.parkingSpaces;
-  } catch (error) {
-    console.error("Error fetching parking spaces:", error);
-    throw error;
-  }
+  const response = await fetch(`${API_BASE_URL}/find`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      lat,
+      lng,
+      radius,
+    }),
+  });
+  const data = await response.json();
+  return data.parkingSpaces;
 };

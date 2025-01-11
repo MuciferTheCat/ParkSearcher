@@ -52,14 +52,14 @@ const UserProfile: React.FC<UserProfileProps> = ({ username, email }) => {
     };
 
     return (
-        <Container className="mt-5">
+        <Container className="mt-5" style={{ padding: '2rem', borderRadius: '8px' }}>
             <div className="bg-white p-4 rounded shadow-sm">
-                <h1 className="text-center">Welcome, {username}</h1>
-                <p className="text-center">{email}</p>
+                <h1 className="text-center" style={{ color: '#8F95D3' }}>Welcome, {username}</h1>
+                <p className="text-center" style={{ color: '#58504A' }}>{email}</p>
                 {error && <p className="text-danger">{error}</p>}
-                <Tabs defaultActiveKey="parkings" id="profile-tabs" className="mb-3">
-                    <Tab eventKey="parkings" title="Parkings">
-                        <h3>Active Parking</h3>
+                <Tabs defaultActiveKey="parkings" id="profile-tabs" className="mb-3" style={{ borderBottom: '2px solid #DBB1BC' }}>
+                    <Tab eventKey="parkings" title="Parkings" tabClassName="custom-tab">
+                    <h3 style={{ color: '#8F95D3' }}>Active Parking</h3>
                         {activeParking ? (
                             <div className="p-3 bg-light rounded">
                                 <p><strong>Parking Place:</strong> {activeParking.parkplaceID}</p>
@@ -71,8 +71,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ username, email }) => {
                             <p>No active parking session found.</p>
                         )}
                     </Tab>
-                    <Tab eventKey="payments" title="Payments">
-                        <h3>Payments</h3>
+                    <Tab eventKey="payments" title="Payments" tabClassName="custom-tab">
+                        <h3 style={{ color: '#8F95D3' }}>Payments</h3>
                         <p>Payment information will be displayed here...</p>
                     </Tab>
                 </Tabs>

@@ -25,10 +25,9 @@
 /* Page layout styles */
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   min-height: 100vh;
+  background-color: #ffffff;
 }
 
 a {
@@ -61,4 +60,27 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.custom-tab {
+  color: #58504A !important; /* Ensure inactive tab text color matches the color scheme */
+  background-color: #DBB1BC; /* Match the background */
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-tab:hover {
+  color: #FFFFFF !important; /* Text color on hover */
+  background-color: #8F95D3; /* Hover background */
+  border: 1px solid #8F95D3;
+}
+
+.custom-tab.active {
+  color: #000000 !important; /* Active tab text color */
+  background-color: #8F95D3; /* Active tab background */
+  border: 1px solid #8F95D3;
+  border-bottom: 2px solid #DBB1BC;
 }
