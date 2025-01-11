@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { getParkingSpaces } from '../services/api/searchService';
@@ -85,7 +86,7 @@ const Map: React.FC = () => {
           .map((place) => (
             <Marker key={place.id} position={[place.center!.lat, place.center!.lon]}>
               <Popup>
-                <b>ID:</b> {place.id}
+                <b>Name:</b> {place.tags.name || 'Unknown Parking Place'}
                 <br />
                 <b>Access:</b> {place.tags.access || 'Unknown'}
                 <br />
@@ -94,6 +95,15 @@ const Map: React.FC = () => {
                 <b>Type:</b> {place.tags.parking || 'Unknown'}
                 <br />
                 <b>Capacity:</b> {place.tags.capacity || 'Unknown'}
+                <br />
+                <Link
+                  to={`/parking`}
+                  state={{
+                    parkingData: place, // Pass the entire parking data object
+                  }}
+                >
+                  <button style={styles.button}>Start Parking</button>
+                </Link>
               </Popup>
             </Marker>
           ))}
@@ -105,21 +115,18 @@ const Map: React.FC = () => {
 const styles = {
   form: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: '1rem',
     marginBottom: '1rem',
-  },
-  inputGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5rem',
   },
   input: {
     padding: '0.5rem',
     fontSize: '1rem',
     borderRadius: '5px',
     border: '1px solid #ccc',
+    color: '#333',
+    backgroundColor: '#fff',
   },
   button: {
     padding: '0.5rem 1rem',
@@ -129,6 +136,18 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  startParkingButton: {
+    padding: '0.4rem 1rem', // Adjust padding for smaller font
+    fontSize: '0.9rem', // Slightly smaller font
+    backgroundColor: '#8F95D3',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    marginTop: '1rem', // Add gap between text and button
   },
   error: {
     color: 'red',

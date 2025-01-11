@@ -2,6 +2,7 @@ import axios from 'axios';
 import { RegisterData, LoginData, User, AuthResponse } from '../types/user';
 
 const API_BASE_URL = import.meta.env.VITE_USER_SERVICE_URL;
+axios.defaults.withCredentials = true;
 
 export const registerUser = async (data: RegisterData): Promise<AuthResponse> => {
     console.log(data)

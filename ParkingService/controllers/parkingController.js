@@ -2,7 +2,7 @@ const Parking = require('../models/Parking');
 
 exports.addParking = async (request, result) => {
   const { parkplaceID, carRegistration, duration } = request.body;
-  email = req.user.email
+  email = request.user.email
 
   try {
     if (await Parking.findOne({ email })) {
@@ -18,7 +18,7 @@ exports.addParking = async (request, result) => {
     const currentTime = new Date();
     const endTime = new Date(currentTime.getTime() + duration * 60000)
 
-    const new_parking = new Parking({parkplaceID, email, carRegistration, duration, currentTime, endTime});
+    const new_parking = new Parking({ parkplaceID, email, carRegistration, duration, currentTime, endTime });
     await new_parking.save();
 
     console.log('New parkig session created successfully')
@@ -31,7 +31,7 @@ exports.addParking = async (request, result) => {
 
 exports.updateParking = async (request, result) => {
   const { duration } = request.body;
-  email = req.user.email
+  email = request.user.email
 
   try {
     const parkingEntry = await Parking.findOne({ email });
@@ -67,7 +67,7 @@ exports.updateParking = async (request, result) => {
 
 exports.getParking = async (request, result) => {
   //const { email } = request.body;
-  email = req.user.email
+  email = request.user.email
 
   try {
     const parkingEntry = await Parking.findOne({ email });

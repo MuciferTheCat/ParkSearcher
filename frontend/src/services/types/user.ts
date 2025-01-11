@@ -16,6 +16,8 @@ export interface LoginData {
 }
 
 export interface AuthResponse {
-    token: string;
-    user: User;
+    message: string;
+    email: string;
+    username: string;
+    jwtoken: string;
 }
