@@ -70,7 +70,11 @@ const App: React.FC = () => {
                 path="/profile"
                 element={
                   isLoggedIn ? (
-                    <UserProfile username={username} email={email} />
+                    <UserProfile
+                      username={username}
+                      email={email}
+                      token={token}
+                    />
                   ) : (
                     <div>Please log in to access your profile.</div>
                   )
