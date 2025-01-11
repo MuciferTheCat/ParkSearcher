@@ -1,7 +1,7 @@
 const Parking = require('../models/Parking');
 
 exports.addParking = async (request, result) => {
-  const { parkplaceID, carRegistration, duration } = request.body;
+  const { parkplaceID, carRegistration, duration, price } = request.body;
   email = request.user.email
 
   try {
@@ -18,7 +18,7 @@ exports.addParking = async (request, result) => {
     const currentTime = new Date();
     const endTime = new Date(currentTime.getTime() + duration * 60000)
 
-    const new_parking = new Parking({ parkplaceID, email, carRegistration, duration, currentTime, endTime });
+    const new_parking = new Parking({ parkplaceID, email, carRegistration, duration, currentTime, endTime, price });
     await new_parking.save();
 
     console.log('New parkig session created successfully')

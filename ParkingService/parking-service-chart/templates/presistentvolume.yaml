@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: parking-service-mongodb-pv
+  name: parking-mongodb-pv
 spec:
   capacity:
     storage: {{ .Values.mongodb.storageSize }}

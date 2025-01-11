@@ -26,6 +26,10 @@ const parkingSchema = new mongoose.Schema({
     endTime: {
       type: Date,
     },
+    price: {
+      type: Number,
+      default: 0,
+    }
   });
 
 const Parking = mongoose.model('Parking', parkingSchema);
