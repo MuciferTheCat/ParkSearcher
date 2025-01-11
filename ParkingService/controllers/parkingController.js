@@ -85,19 +85,19 @@ exports.getParking = async (request, result) => {
   }
 };
 
-exports.concludeParking = async (req, res) => {
-  //const { email } = req.body;
-  email = req.user.email
+exports.concludeParking = async (request, result) => {
+  const email = request.user.email;
 
   try {
-    const finishedParking = await Parking.findOneAndUpdate({ email }, { endTime: Date.now() }, { new: true });
+    // Attempt to delete the parking session
+    const deletedParking = await Parking.findOneAndDelete({ email });
 
-    if (!finishedParking) {
-      return res.status(404).json({ message: 'Parking session not found' });
+    if (!deletedParking) {
+      return result.status(404).json({ message: 'Parking session not found' });
     }
 
-    return result.status(200).json(finishedParking);
+    return result.status(200).json({ message: 'Parking session deleted successfully', deletedParking });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err });
+    result.status(500).json({ message: 'Server error', error: err });
   }
 };

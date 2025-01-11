@@ -9,6 +9,6 @@ router.put('/update', passport.authenticate('jwt', { session: false }), parkingC
 
 router.get('/get', passport.authenticate('jwt', { session: false }), parkingController.getParking);
 
-router.post('/end', passport.authenticate('jwt', { session: false }), parkingController.concludeParking);
+router.delete('/end', passport.authenticate('jwt', { session: false }), parkingController.concludeParking);
 
 module.exports = router;
