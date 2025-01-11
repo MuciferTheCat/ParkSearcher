@@ -6,6 +6,7 @@ import Register from './components/Register';
 import UserProfile from './components/UserProfile';
 import Parking from './components/Parking';
 import Header from './components/Header';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,6 +30,7 @@ const App: React.FC = () => {
       console.error('Failed to retrieve login state:', error);
     }
   }, []);
+
   const handleLogin = (jwtoken: string, username: string, email: string) => {
     setIsLoggedIn(true);
     setToken(jwtoken);
@@ -53,26 +55,12 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div style={styles.app}>
-        <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-        <div style={styles.content}>
+      <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <div className="container-fluid d-flex flex-column align-items-center p-4">
+        <div className="bg-white p-4 rounded shadow-sm mx-auto w-100" style={{ maxWidth: '1200px' }}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <div style={{ height: '100%', width: '1500px', margin: '0 auto' }}>
-                  <Map />
-                </div>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <Login
-                  onLogin={handleLogin} // Update login state with user details
-                />
-              }
-            />
+            <Route path="/" element={<Map />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register />} />
             <Route
               path="/profile"
@@ -93,22 +81,6 @@ const App: React.FC = () => {
       </div>
     </Router>
   );
-};
-
-const styles = {
-  app: {
-    backgroundColor: '#F5F5DC',
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    marginTop: '100px',
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 };
 
 export default App;

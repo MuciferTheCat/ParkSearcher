@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Tabs, Tab, Container } from 'react-bootstrap';
 
 interface Parking {
     parkplaceID: string;
@@ -24,7 +23,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ username, email }) => {
             try {
                 const response = await fetch('http://localhost:5001/api/parking/get', {
                     method: 'GET',
-                    credentials: 'include', // Include cookies for authentication
+                    credentials: 'include',
                 });
 
                 if (response.ok) {
@@ -53,56 +52,33 @@ const UserProfile: React.FC<UserProfileProps> = ({ username, email }) => {
     };
 
     return (
-        <div style={styles.container}>
-            <h1>Welcome, {username}</h1>
-            <p>Email: {email}</p>
-            {error && <p style={styles.error}>{error}</p>}
-
-            <Tabs defaultActiveKey="parkings" id="profile-tabs" className="mb-3">
-                {/* Parkings Tab */}
-                <Tab eventKey="parkings" title="Parkings">
-                    <h3>Active Parking</h3>
-                    {activeParking ? (
-                        <div style={styles.parkingDetails}>
-                            <p><strong>Parking Place:</strong> {activeParking.parkplaceID}</p>
-                            <p><strong>Car Registration:</strong> {activeParking.carRegistration}</p>
-                            <p><strong>Duration:</strong> {activeParking.duration} mins</p>
-                            <p><strong>Remaining Time:</strong> {calculateRemainingDuration(activeParking.endTime)}</p>
-                        </div>
-                    ) : (
-                        <p>No active parking session found.</p>
-                    )}
-                </Tab>
-
-                {/* Placeholder for Other Tabs */}
-                <Tab eventKey="payments" title="Payments">
-                    <h3>Payments</h3>
-                    <p>Payment information will be displayed here...</p>
-                </Tab>
-            </Tabs>
-        </div>
+        <Container className="mt-5">
+            <div className="bg-white p-4 rounded shadow-sm">
+                <h1 className="text-center">Welcome, {username}</h1>
+                <p className="text-center">{email}</p>
+                {error && <p className="text-danger">{error}</p>}
+                <Tabs defaultActiveKey="parkings" id="profile-tabs" className="mb-3">
+                    <Tab eventKey="parkings" title="Parkings">
+                        <h3>Active Parking</h3>
+                        {activeParking ? (
+                            <div className="p-3 bg-light rounded">
+                                <p><strong>Parking Place:</strong> {activeParking.parkplaceID}</p>
+                                <p><strong>Car Registration:</strong> {activeParking.carRegistration}</p>
+                                <p><strong>Duration:</strong> {activeParking.duration} mins</p>
+                                <p><strong>Remaining Time:</strong> {calculateRemainingDuration(activeParking.endTime)}</p>
+                            </div>
+                        ) : (
+                            <p>No active parking session found.</p>
+                        )}
+                    </Tab>
+                    <Tab eventKey="payments" title="Payments">
+                        <h3>Payments</h3>
+                        <p>Payment information will be displayed here...</p>
+                    </Tab>
+                </Tabs>
+            </div>
+        </Container>
     );
-};
-
-const styles = {
-    container: {
-        maxWidth: '800px',
-        margin: '0 auto',
-        textAlign: 'left',
-        padding: '1rem',
-        backgroundColor: '#f9f9f9',
-        borderRadius: '10px',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-    },
-    error: {
-        color: 'red',
-    },
-    parkingDetails: {
-        padding: '1rem',
-        marginBottom: '1rem',
-        backgroundColor: '#e8e8e8',
-        borderRadius: '5px',
-    },
 };
 
 export default UserProfile;
