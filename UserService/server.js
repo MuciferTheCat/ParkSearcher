@@ -4,6 +4,11 @@ const cors = require('cors')
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
+const swaggerUi = require("swagger-ui-express");
+const fs = require("fs")
+const YAML = require('yaml')
+const file  = fs.readFileSync('./swagger.yaml', 'utf8')
+const swaggerDocument = YAML.parse(file)
 
 dotenv.config();
 
@@ -17,6 +22,7 @@ app.use(cookies())
 connectDB();
 
 app.use('/api/user', userRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 var passport = require('passport')
 var JwtStrategy = require('passport-jwt').Strategy;

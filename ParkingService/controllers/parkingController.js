@@ -15,10 +15,10 @@ exports.addParking = async (request, result) => {
       return result.status(400).json({ message: 'This car is already parked somewhere' });
     }
 
-    const currentTime = new Date();
-    const endTime = new Date(currentTime.getTime() + duration * 60000)
+    const startTime = new Date();
+    const endTime = new Date(startTime.getTime() + duration * 60000)
 
-    const new_parking = new Parking({ parkplaceID, email, carRegistration, duration, currentTime, endTime, price });
+    const new_parking = new Parking({ parkplaceID, email, carRegistration, duration, startTime, endTime, price });
     await new_parking.save();
 
     console.log('New parkig session created successfully')

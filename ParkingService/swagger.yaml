@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: ParkingService API
+  version: 1.0.0
+  description: API documentation for the ParkingService application
+servers:
+  - url: http://localhost:5001
+paths:
+  /api/parking/create:
+    post:
+      tags:
+        - Parking
+      summary: Create a new parking session
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                parkplaceID:
+                  type: string
+                  example: A123
+                carRegistration:
+                  type: string
+                  example: ABC-1234
+                duration:
+                  type: number
+                  example: 120
+                price:
+                  type: number
+                  example: 10
+      responses:
+        201:
+          description: New parking session created successfully
+        400:
+          description: User or car already parked
+        500:
+          description: Server error
+
+  /api/parking/update:
+    put:
+      tags:
+        - Parking
+      summary: Update an existing parking session
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                duration:
+                  type: number
+                  example: 60
+      responses:
+        200:
+          description: Parking session updated successfully
+        400:
+          description: Invalid update parameters
+        404:
+          description: Parking session not found
+        500:
+          description: Server error
+
+  /api/parking/get:
+    get:
+      tags:
+        - Parking
+      summary: Retrieve active parking session for a user
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfully retrieved active parking session
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  parkplaceID:
+                    type: string
+                    example: A123
+                  carRegistration:
+                    type: string
+                    example: ABC-1234
+                  duration:
+                    type: number
+                    example: 120
+                  startTime:
+                    type: string
+                    format: date-time
+                    example: 2023-01-01T10:00:00Z
+                  endTime:
+                    type: string
+                    format: date-time
+                    example: 2023-01-01T12:00:00Z
+                  price:
+                    type: number
+                    example: 10
+        404:
+          description: No active parking session found
+        500:
+          description: Server error
+
+  /api/parking/end:
+    delete:
+      tags:
+        - Parking
+      summary: Conclude a parking session
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Parking session deleted successfully
+        404:
+          description: Parking session not found
+        500:
+          description: Server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

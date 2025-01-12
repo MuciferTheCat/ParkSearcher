@@ -23,3 +23,18 @@ export const createParking = async (
   });
   return response.data;
 };
+
+export const endActiveParking = async (token: string): Promise<void> => {
+  try {
+    await axios.delete(`${API_BASE_URL}/end`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error: any) {
+    console.error("Error ending parking:", error);
+    throw new Error(
+      error.response?.data?.message || "Failed to end parking session."
+    );
+  }
+};

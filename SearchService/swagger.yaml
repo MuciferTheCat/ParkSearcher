@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: SearchService API
+  version: 1.0.0
+  description: API documentation for the SearchService application
+servers:
+  - url: http://localhost:5003
+paths:
+  /api/search/find:
+    post:
+      tags:
+        - Search
+      summary: Find parking spaces within a specified radius
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lat:
+                  type: number
+                  description: Latitude of the search location
+                  example: 40.7128
+                lng:
+                  type: number
+                  description: Longitude of the search location
+                  example: -74.0060
+                radius:
+                  type: number
+                  description: Search radius in meters. Default is 500 meters.
+                  example: 1000
+      responses:
+        200:
+          description: List of parking spaces within the specified radius
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  parkingSpaces:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique ID of the parking space
+                          example: 12345
+                        tags:
+                          type: object
+                          description: Additional tags associated with the parking space
+                        center:
+                          type: object
+                          description: Geographic coordinates of the parking space
+                          properties:
+                            lat:
+                              type: number
+                              example: 40.7128
+                            lon:
+                              type: number
+                              example: -74.0060
+        400:
+          description: Latitude and Longitude are required
+        500:
+          description: An error occurred while fetching parking spaces
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
