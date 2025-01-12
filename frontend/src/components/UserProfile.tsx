@@ -65,6 +65,26 @@ const UserProfile: React.FC<UserProfileProps> = ({
     fetchUserPayments();
   }, [token]);
 
+  useEffect(() => {
+    if (activeParking) {
+      const now = new Date();
+      const end = new Date(activeParking.endTime);
+      const remainingTime = end.getTime() - now.getTime();
+
+      if (remainingTime > 0) {
+        const timeout = setTimeout(() => {
+          setActiveParking(null);
+          alert("Your parking session has ended.");
+        }, remainingTime);
+
+        return () => clearTimeout(timeout);
+      } else {
+        setActiveParking(null);
+        alert("Your parking session has ended.");
+      }
+    }
+  }, [activeParking]);
+
   const calculateRemainingDuration = (endTime: string): string => {
     const now = new Date();
     const end = new Date(endTime);
@@ -108,9 +128,14 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
     try {
       const updatedParking = await updateParkingDuration(token, { duration });
-      setActiveParking(updatedParking);
-      setIsEditingTime(false);
-      alert("Parking duration updated successfully.");
+      if (updatedParking) {
+        setActiveParking(updatedParking); // Immediately update active parking in state
+        setIsEditingTime(false);
+        setNewEndTime(""); // Reset input
+        alert("Parking duration updated successfully."); // Notify user
+      } else {
+        alert("Failed to update parking duration. Please try again.");
+      }
     } catch (err) {
       alert("Error updating parking duration. Please try again.");
     }

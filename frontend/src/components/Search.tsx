@@ -6,17 +6,56 @@ import { getParkingSpaces } from "../services/api/searchService";
 import { ParkingSpace } from "../services/types/search";
 
 const Map: React.FC = () => {
+  const [city, setCity] = useState<string>("Ljubljana"); // Default city
   const [latitude, setLatitude] = useState<number>(46.056946); // Default to Ljubljana
   const [longitude, setLongitude] = useState<number>(14.505751); // Default to Ljubljana
   const [radius, setRadius] = useState<number>(500); // Default radius
   const [parkingPlaces, setParkingPlaces] = useState<ParkingSpace[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  const geocodeCity = async (
+    cityName: string
+  ): Promise<{ lat: number; lon: number } | null> => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          cityName
+        )}`
+      );
+      const data = await response.json();
+
+      if (data.length > 0) {
+        return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+      } else {
+        alert("City not found. Please enter a valid city name.");
+        return null;
+      }
+    } catch {
+      alert("Failed to fetch city coordinates. Please try again.");
+      return null;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const response = await getParkingSpaces(latitude, longitude, radius);
-      setParkingPlaces(response);
+      const coordinates = await geocodeCity(city);
+      if (!coordinates) return;
+
+      const { lat, lon } = coordinates;
+      setLatitude(lat);
+      setLongitude(lon);
+
+      const response = await getParkingSpaces(lat, lon, radius);
+      const updatedResponse = response.map((place) => ({
+        ...place,
+        tags: {
+          ...place.tags,
+          "addr:city": place.tags["addr:city"] || city,
+        },
+      }));
+      setParkingPlaces(updatedResponse);
       setError(null);
     } catch (err) {
       setError("Failed to fetch parking spaces. Please try again.");
@@ -27,21 +66,11 @@ const Map: React.FC = () => {
     <div>
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.inputGroup}>
-          <label>Latitude:</label>
+          <label>City:</label>
           <input
-            type="number"
-            value={latitude}
-            onChange={(e) => setLatitude(Number(e.target.value))}
-            style={styles.input}
-            required
-          />
-        </div>
-        <div style={styles.inputGroup}>
-          <label>Longitude:</label>
-          <input
-            type="number"
-            value={longitude}
-            onChange={(e) => setLongitude(Number(e.target.value))}
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
             style={styles.input}
             required
           />
