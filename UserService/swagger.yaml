@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: UserService API
+  version: 1.0.0
+  description: API documentation for the UserService application
+servers:
+  - url: http://localhost:5000
+    description: Local server
+paths:
+  /api/user/register:
+    post:
+      tags:
+        - User
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: johndoe
+                email:
+                  type: string
+                  example: johndoe@example.com
+                password:
+                  type: string
+                  example: secret123
+      responses:
+        201:
+          description: User registered successfully
+        400:
+          description: Email already in use
+        500:
+          description: Server error
+
+  /api/user/login:
+    post:
+      tags:
+        - User
+      summary: Log in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: johndoe@example.com
+                password:
+                  type: string
+                  example: secret123
+      responses:
+        200:
+          description: Login successful
+        400:
+          description: Invalid credentials or user not found
+        500:
+          description: Server error
+
+  /api/user/admin:
+    put:
+      tags:
+        - User
+      summary: Grant admin privileges to a user
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@example.com
+      responses:
+        201:
+          description: User successfully made into an admin
+        400:
+          description: Unauthorized or user not found
+        500:
+          description: Server error
+
+  /api/user/getall:
+    get:
+      tags:
+        - User
+      summary: Retrieve a list of all users
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                    email:
+                      type: string
+                    isAdmin:
+                      type: boolean
+        500:
+          description: Server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
