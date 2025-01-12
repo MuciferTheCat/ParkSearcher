@@ -2,7 +2,7 @@ const Payment = require('../models/Payment');
 
 exports.addPayment = async (request, result) => {
   const { amount } = request.body;
-  email = req.user.email
+  email = request.user.email
 
   try {
     isActive = true 
@@ -27,7 +27,7 @@ exports.deactivatePayment = async (request, result) => {
   const { id } = request.body;
 
   try {
-    const currentPayment = await Payment.findById({ id });
+    const currentPayment = await Payment.findById(id);
 
     if (!currentPayment) {
       console.log('No payment with this id');
@@ -52,7 +52,7 @@ exports.deactivatePayment = async (request, result) => {
 
 exports.getPayments = async (request, result) => {
   //const { email } = request.body;
-  email = req.user.email
+  email = request.user.email
 
   try {
     console.log('Start');
@@ -79,7 +79,7 @@ exports.getPaymentById = async (request, result) => {
   const { id } = request.body;
 
   try {
-    const currentPayment = await Payment.findById({ id });
+    const currentPayment = await Payment.findById(id);
 
     if (!currentPayment) {
       console.log('No payment with this id');

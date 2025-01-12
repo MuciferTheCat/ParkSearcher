@@ -20,8 +20,17 @@ persistentVolume:
   hostPath: /data/mongodb
 
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+
+ingress:
+  enabled: true
+  host: "user-service.example.com"  # Replace with your domain name
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Optional, for TLS
+  tls: true
+  tlsSecret: "user-service-tls"  # Secret name for HTTPS
+
