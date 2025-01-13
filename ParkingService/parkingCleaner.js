@@ -26,6 +26,7 @@ async function cleanExpiredEntries() {
       for (const entry of expiredEntries) {
         const receiptData = {
           parkingId: entry._id,
+          email: entry.email,
           startTime: entry.startTime,
           endTime: entry.endTime,
           price: entry.price,

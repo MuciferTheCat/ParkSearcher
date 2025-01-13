@@ -2,6 +2,7 @@ const express = require('express');
 const cookies = require('cookie-parser')
 const cors = require('cors')
 const dotenv = require('dotenv');
+const User = require('./models/User');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const swaggerUi = require("swagger-ui-express");
@@ -20,6 +21,38 @@ app.use(cors())
 app.use(cookies())
 
 connectDB();
+
+const createAdminUser = async () => {
+  try {
+      const adminEmail = 'admin2@example.com';
+      const adminPassword = process.env.ADMIN_PASS || 'admin';
+
+      const existingAdmin = await User.findOne({ email: adminEmail });
+
+      if (!existingAdmin) {
+          const adminUser = new User({
+              username: 'admin2',
+              email: adminEmail,
+              password: adminPassword,
+              isAdmin: true,
+          });
+
+          await adminUser.save();
+          console.log('Admin user created successfully.');
+      } else {
+          console.log('Admin user already exists.');
+      }
+  } catch (error) {
+      console.error('Error creating admin user:', error);
+  }
+};
+
+connectDB().then(() => {
+  console.log('MongoDB Connected');
+  createAdminUser();
+}).catch(err => {
+  console.error('MongoDB Connection Error:', err);
+});
 
 app.use('/api/user', userRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

@@ -30,7 +30,7 @@ var opts = {}
 var cookieExtractor = function(req) {
   var token = null;
   if (req && req.cookies) {
-    console.log(req.cookies)
+    //console.log(req.cookies)
     token = req.cookies['jwt'];
   }
   return token;

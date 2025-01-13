@@ -4,6 +4,6 @@ metadata:
   name: {{ .Release.Name }}-mongodb-service
 spec:
   selector:
-    app: {{ include "user-service.fullname" . }}-mongodb
+    app: {{ include "payment-service.fullname" . }}-mongodb
   ports:
     - port: 27017

@@ -89,7 +89,37 @@ exports.concludeParking = async (request, result) => {
   const email = request.user.email;
 
   try {
-    // Attempt to delete the parking session
+    const parkingEntry = await Parking.findOne({ email });
+    expiredEntries = [parkingEntry]
+
+    for (const entry of expiredEntries) {
+      const receiptData = {
+        parkingId: entry._id,
+        email: entry.email,
+        startTime: entry.startTime,
+        endTime: entry.endTime,
+        price: entry.price,
+        duration: Math.ceil((new Date(entry.endTime) - new Date(entry.startTime)) / (1000 * 60)) // Duration in minutes
+      };
+
+      console.log('Sending receipt data to payment microservice:', receiptData);
+
+      try {
+        const connection = await amqp.connect(rabbitmqHost);
+        const channel = await connection.createChannel();
+        const queue = 'ended.parking';
+
+        await channel.assertQueue(queue, { durable: true });
+        channel.sendToQueue(queue, Buffer.from(JSON.stringify(receiptData)));
+
+        console.log(" [x] Sent %s", JSON.stringify(receiptData));
+        await channel.close();
+        await connection.close();
+      } catch (error) {
+          console.error('Error sending message:', error);
+      }
+    }
+
     const deletedParking = await Parking.findOneAndDelete({ email });
 
     if (!deletedParking) {

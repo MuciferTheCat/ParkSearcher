@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: muciferthecat/user-service
+  repository: andrazsovinec/user-service
   tag: v1
   pullPolicy: Always
 
@@ -33,4 +33,3 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt-prod" # Optional, for TLS
   tls: true
   tlsSecret: "user-service-tls"  # Secret name for HTTPS
-
