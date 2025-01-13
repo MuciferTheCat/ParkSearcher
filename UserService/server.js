@@ -8,8 +8,9 @@ const userRoutes = require('./routes/userRoutes');
 const swaggerUi = require("swagger-ui-express");
 const fs = require("fs")
 const YAML = require('yaml')
-const file  = fs.readFileSync('./swagger.yaml', 'utf8')
+const file = fs.readFileSync('./swagger.yaml', 'utf8')
 const swaggerDocument = YAML.parse(file)
+const mongoose = require("mongoose");
 
 dotenv.config();
 
@@ -24,26 +25,26 @@ connectDB();
 
 const createAdminUser = async () => {
   try {
-      const adminEmail = 'admin2@example.com';
-      const adminPassword = process.env.ADMIN_PASS || 'admin';
+    const adminEmail = 'admin2@example.com';
+    const adminPassword = process.env.ADMIN_PASS || 'admin';
 
-      const existingAdmin = await User.findOne({ email: adminEmail });
+    const existingAdmin = await User.findOne({ email: adminEmail });
 
-      if (!existingAdmin) {
-          const adminUser = new User({
-              username: 'admin2',
-              email: adminEmail,
-              password: adminPassword,
-              isAdmin: true,
-          });
+    if (!existingAdmin) {
+      const adminUser = new User({
+        username: 'admin2',
+        email: adminEmail,
+        password: adminPassword,
+        isAdmin: true,
+      });
 
-          await adminUser.save();
-          console.log('Admin user created successfully.');
-      } else {
-          console.log('Admin user already exists.');
-      }
+      await adminUser.save();
+      console.log('Admin user created successfully.');
+    } else {
+      console.log('Admin user already exists.');
+    }
   } catch (error) {
-      console.error('Error creating admin user:', error);
+    console.error('Error creating admin user:', error);
   }
 };
 
@@ -57,10 +58,14 @@ connectDB().then(() => {
 app.use('/api/user', userRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.get("api/user", (req, res) => {
+  res.send("User endpoint is working!");
+});
+
 var passport = require('passport')
 var JwtStrategy = require('passport-jwt').Strategy;
 var opts = {}
-var cookieExtractor = function(req) {
+var cookieExtractor = function (req) {
   var token = null;
   if (req && req.cookies) {
     console.log(req.cookies)
@@ -70,10 +75,10 @@ var cookieExtractor = function(req) {
 };
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET;
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-  if (jwt_payload){
+passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+  if (jwt_payload) {
     return done(null, jwt_payload)
-  }else{
+  } else {
     return done(null, false)
   }
 }));

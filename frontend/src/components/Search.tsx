@@ -6,33 +6,70 @@ import { getParkingSpaces } from "../services/api/searchService";
 import { ParkingSpace } from "../services/types/search";
 
 const Map: React.FC = () => {
-  const [city, setCity] = useState<string>("Ljubljana"); // Default city
-  const [latitude, setLatitude] = useState<number>(46.056946); // Default to Ljubljana
-  const [longitude, setLongitude] = useState<number>(14.505751); // Default to Ljubljana
-  const [radius, setRadius] = useState<number>(500); // Default radius
+  const [city, setCity] = useState<string>("Ljubljana");
+  const [latitude, setLatitude] = useState<number>(46.056946);
+  const [longitude, setLongitude] = useState<number>(14.505751);
+  const [radius, setRadius] = useState<number>(500);
   const [parkingPlaces, setParkingPlaces] = useState<ParkingSpace[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [useGeolocation, setUseGeolocation] = useState<boolean>(false);
 
-  const geocodeCity = async (
-    cityName: string
-  ): Promise<{ lat: number; lon: number } | null> => {
+  const getUserLocation = (): Promise<GeolocationPosition> => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error('Geolocation is not supported by your browser'));
+      } else {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      }
+    });
+  };
+
+  const geocodeCity = async (city: string): Promise<{ lat: number; lon: number } | null> => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          cityName
-        )}`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`
       );
-      const data = await response.json();
 
-      if (data.length > 0) {
-        return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-      } else {
-        alert("City not found. Please enter a valid city name.");
+      if (!response.ok) {
+        setError("Failed to geocode city name");
         return null;
       }
-    } catch {
-      alert("Failed to fetch city coordinates. Please try again.");
+
+      const data = await response.json();
+
+      if (!data || data.length === 0) {
+        setError("City not found");
+        return null;
+      }
+
+      return {
+        lat: parseFloat(data[0].lat),
+        lon: parseFloat(data[0].lon)
+      };
+    } catch (err) {
+      setError("Failed to geocode city name");
       return null;
+    }
+  };
+
+  const handleGeolocationClick = async () => {
+    try {
+      const position = await getUserLocation();
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+      setUseGeolocation(true);
+
+      const response = await getParkingSpaces(
+        position.coords.latitude,
+        position.coords.longitude,
+        radius,
+        true
+      );
+      setParkingPlaces(response);
+      setError(null);
+    } catch (err) {
+      setError("Failed to get your location. Please try manual input.");
+      setUseGeolocation(false);
     }
   };
 
@@ -40,23 +77,31 @@ const Map: React.FC = () => {
     e.preventDefault();
 
     try {
-      const coordinates = await geocodeCity(city);
-      if (!coordinates) return;
+      if (!useGeolocation) {
+        const coordinates = await geocodeCity(city);
+        if (!coordinates) return;
 
-      const { lat, lon } = coordinates;
-      setLatitude(lat);
-      setLongitude(lon);
+        setLatitude(coordinates.lat);
+        setLongitude(coordinates.lon);
 
-      const response = await getParkingSpaces(lat, lon, radius);
-      const updatedResponse = response.map((place) => ({
-        ...place,
-        tags: {
-          ...place.tags,
-          "addr:city": place.tags["addr:city"] || city,
-        },
-      }));
-      setParkingPlaces(updatedResponse);
-      setError(null);
+        const response = await getParkingSpaces(
+          coordinates.lat,
+          coordinates.lon,
+          radius,
+          useGeolocation
+        );
+        setParkingPlaces(response);
+        setError(null);
+      } else {
+        const response = await getParkingSpaces(
+          latitude,
+          longitude,
+          radius,
+          useGeolocation
+        );
+        setParkingPlaces(response);
+        setError(null);
+      }
     } catch (err) {
       setError("Failed to fetch parking spaces. Please try again.");
     }
@@ -65,15 +110,28 @@ const Map: React.FC = () => {
   return (
     <div>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.inputGroup}>
-          <label>City:</label>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            style={styles.input}
-            required
-          />
+        <div style={styles.searchOptions}>
+          <button
+            type="button"
+            onClick={handleGeolocationClick}
+            style={styles.locationButton}
+          >
+            Use My Location
+          </button>
+          <span style={styles.divider}>or</span>
+          <div style={styles.inputGroup}>
+            <label>City:</label>
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => {
+                setCity(e.target.value);
+                setUseGeolocation(false);
+              }}
+              style={styles.input}
+              disabled={useGeolocation}
+            />
+          </div>
         </div>
         <div style={styles.inputGroup}>
           <label>Radius (meters):</label>
@@ -115,10 +173,10 @@ const Map: React.FC = () => {
                 {place.tags.charge
                   ? `${place.tags.charge} EUR`
                   : place.tags.fee === "yes"
-                  ? "Yes"
-                  : place.tags.fee === "no"
-                  ? "No"
-                  : "Unknown"}
+                    ? "Yes"
+                    : place.tags.fee === "no"
+                      ? "No"
+                      : "Unknown"}
                 <br />
                 <b>Type:</b>{" "}
                 {place.tags.parking === "underground"
@@ -191,6 +249,23 @@ const styles: { [key: string]: CSSProperties } = {
   error: {
     color: "red",
   },
+  searchOptions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+  },
+  locationButton: {
+    padding: '0.5rem 1rem',
+    backgroundColor: '#d3c4e3',
+    color: '#000',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
+  divider: {
+    color: '#666',
+    padding: '0 0.5rem',
+  }
 };
 
 export default Map;
