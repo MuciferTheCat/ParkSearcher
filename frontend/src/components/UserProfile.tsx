@@ -33,34 +33,34 @@ const UserProfile: React.FC<UserProfileProps> = ({
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchActiveParking = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/api/parking/get", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setActiveParking(data);
+      } else {
+        setActiveParking(null);
+      }
+    } catch (err) {
+      setError("Failed to fetch active parking data.");
+    }
+  };
+
+  const fetchUserPayments = async () => {
+    try {
+      const fetchedPayments = await fetchPayments(token);
+      setPayments(fetchedPayments);
+    } catch (err) {
+      setError("Failed to fetch payments. Please try again.");
+    }
+  };
+
   useEffect(() => {
-    const fetchActiveParking = async () => {
-      try {
-        const response = await fetch("http://localhost:5001/api/parking/get", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setActiveParking(data);
-        } else {
-          setActiveParking(null);
-        }
-      } catch (err) {
-        setError("Failed to fetch active parking data.");
-      }
-    };
-
-    const fetchUserPayments = async () => {
-      try {
-        const fetchedPayments = await fetchPayments(token);
-        setPayments(fetchedPayments);
-      } catch (err) {
-        setError("Failed to fetch payments. Please try again.");
-      }
-    };
-
     fetchActiveParking();
     fetchUserPayments();
   }, [token]);
@@ -129,7 +129,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
     try {
       const updatedParking = await updateParkingDuration(token, { duration });
       if (updatedParking) {
-        setActiveParking(updatedParking); // Immediately update active parking in state
+        await fetchActiveParking(); // Immediately update active parking in state
         setIsEditingTime(false);
         setNewEndTime(""); // Reset input
         alert("Parking duration updated successfully."); // Notify user
