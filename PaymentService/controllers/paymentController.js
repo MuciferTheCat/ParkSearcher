@@ -5,7 +5,7 @@ exports.addPayment = async (request, result) => {
   email = request.user.email
 
   try {
-    isActive = true 
+    isActive = true
     if (amount == 0){
       isActive = false
     }

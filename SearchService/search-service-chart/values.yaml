@@ -1,23 +1,16 @@
 replicaCount: 1
 
 image:
-  repository: andrazsovinec/parking-service
+  repository: andrazsovinec/search-service
   tag: v1
   pullPolicy: Always
 
 service:
-  port: 5001
-
-mongodb:
-  #uri: "mongodb://mongodb-service:27017/"
-  storageSize: 5Gi
-  replicaCount: 1
+  port: 5003
 
 env:
   JWT_SECRET: "my_key"
 
-persistentVolume:
-  hostPath: /data/mongodb
 
 autoscaling:
   enabled: true
@@ -28,17 +21,14 @@ autoscaling:
 
 ingress:
   enabled: true
-  host: "parking-service.example.com"
+  host: "search-service.example.com"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   tls: true
-  tlsSecret: "parking-service-tls"
+  tlsSecret: "search-service-tls"
 
 podLabels:
-  app: parking-service
-  environment: parking-dev
-  team: parking-backend
+  app: search-service
+  environment: search-dev
+  team: search-backend
   version: v1.0.0
-
-cronjob:
-  schedule: "*/1 * * * *"

@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: parking-service-parking-cleaner
+  labels:
+    {{- include "parking-service.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            {{- include "parking-service.labels" . | nindent 8 }}
+        spec:
+          containers:
+            - name: parking-cleaner
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command: ["node"]
+              args: ["parkingCleaner.js"]
+          restartPolicy: OnFailure

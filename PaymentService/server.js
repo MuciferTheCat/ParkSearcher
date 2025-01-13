@@ -1,5 +1,6 @@
 const express = require('express');
 const cookies = require('cookie-parser')
+const amqp = require('amqplib');
 const cors = require('cors')
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
@@ -8,6 +9,7 @@ const swaggerUi = require("swagger-ui-express");
 const fs = require("fs")
 const YAML = require('yaml')
 const file  = fs.readFileSync('./swagger.yaml', 'utf8')
+const listenForUserEvents = require('./messageWorker');
 const swaggerDocument = YAML.parse(file)
 
 dotenv.config();
@@ -21,6 +23,10 @@ app.use(cookies())
 
 connectDB();
 
+listenForUserEvents()
+    .then(() => console.log('RabbitMQ worker started successfully'))
+    .catch((error) => console.error('Failed to start RabbitMQ worker:', error));
+
 app.use('/api/payment', paymentRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -30,7 +36,7 @@ var opts = {}
 var cookieExtractor = function(req) {
   var token = null;
   if (req && req.cookies) {
-    console.log(req.cookies)
+    //console.log(req.cookies)
     token = req.cookies['jwt'];
   }
   return token;

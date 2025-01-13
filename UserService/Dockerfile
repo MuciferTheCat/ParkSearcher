@@ -1,7 +1,5 @@
 FROM node:22-alpine
 
-RUN mkdir -p /app/node_modules
-
 WORKDIR /app
 
 COPY package*.json ./
@@ -12,4 +10,5 @@ COPY . .
 
 EXPOSE 5000
 
-CMD [ "node", "server.js" ]
+CMD ["node", "server.js"]
+#CMD [ "node", "server.js" ]

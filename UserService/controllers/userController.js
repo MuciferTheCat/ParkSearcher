@@ -22,6 +22,7 @@ exports.registerUser = async (req, res) => {
 
       console.log(rabbitmqHost)
 
+      /*
       try {
         const connection = await amqp.connect(rabbitmqHost);
         const channel = await connection.createChannel();
@@ -36,6 +37,7 @@ exports.registerUser = async (req, res) => {
       } catch (error) {
           console.error('Error sending message:', error);
       }
+      */
 
     } catch (err) {
       res.status(500).json({ message: 'Server error:', error: err });

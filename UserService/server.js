@@ -2,6 +2,7 @@ const express = require('express');
 const cookies = require('cookie-parser')
 const cors = require('cors')
 const dotenv = require('dotenv');
+const User = require('./models/User');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const swaggerUi = require("swagger-ui-express");
@@ -22,26 +23,36 @@ app.use(cookies())
 
 connectDB();
 
-const checkDatabaseConnection = async () => {
+const createAdminUser = async () => {
   try {
-    if (mongoose.connection.readyState === 1) {
-      return "CONNECTED";
+    const adminEmail = 'admin2@example.com';
+    const adminPassword = process.env.ADMIN_PASS || 'admin';
+
+    const existingAdmin = await User.findOne({ email: adminEmail });
+
+    if (!existingAdmin) {
+      const adminUser = new User({
+        username: 'admin2',
+        email: adminEmail,
+        password: adminPassword,
+        isAdmin: true,
+      });
+
+      await adminUser.save();
+      console.log('Admin user created successfully.');
+    } else {
+      console.log('Admin user already exists.');
     }
-  } catch (err) {
-    return "DISCONNECTED";
+  } catch (error) {
+    console.error('Error creating admin user:', error);
   }
 };
 
-app.get("/health", async (req, res) => {
-  const dbStatus = await checkDatabaseConnection();
-  const status = dbStatus === "CONNECTED" ? "UP" : "DOWN";
-
-  res.status(status === "UP" ? 200 : 500).json({
-    status,
-    service: "UserService",
-    database: dbStatus,
-    timestamp: new Date().toISOString(),
-  });
+connectDB().then(() => {
+  console.log('MongoDB Connected');
+  createAdminUser();
+}).catch(err => {
+  console.error('MongoDB Connection Error:', err);
 });
 
 app.use('/api/user', userRoutes);

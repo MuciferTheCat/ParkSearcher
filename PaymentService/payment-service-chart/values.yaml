@@ -1,12 +1,12 @@
 replicaCount: 1
 
 image:
-  repository: andrazsovinec/parking-service
+  repository: andrazsovinec/payment-service
   tag: v1
   pullPolicy: Always
 
 service:
-  port: 5001
+  port: 5002
 
 mongodb:
   #uri: "mongodb://mongodb-service:27017/"
@@ -28,17 +28,14 @@ autoscaling:
 
 ingress:
   enabled: true
-  host: "parking-service.example.com"
+  host: "payment-service.example.com"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   tls: true
-  tlsSecret: "parking-service-tls"
+  tlsSecret: "payment-service-tls"
 
 podLabels:
-  app: parking-service
-  environment: parking-dev
-  team: parking-backend
+  app: payment-service
+  environment: payment-dev
+  team: payment-backend
   version: v1.0.0
-
-cronjob:
-  schedule: "*/1 * * * *"
