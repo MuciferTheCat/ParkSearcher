@@ -6,6 +6,7 @@ const rabbitmqHost = process.env.RABBITMQ_HOST || 'amqp://localhost';
 
 async function listenForUserEvents() {
     try {
+        console.log(rabbitmqHost);
         const connection = await amqp.connect(rabbitmqHost);
         const channel = await connection.createChannel();
         const queue = 'ended.parking';
@@ -44,4 +45,4 @@ async function listenForUserEvents() {
     }
 }
 
-listenForUserEvents();
+module.exports = listenForUserEvents;

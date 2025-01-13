@@ -1,0 +1,34 @@
+replicaCount: 1
+
+image:
+  repository: andrazsovinec/search-service
+  tag: v1
+  pullPolicy: Always
+
+service:
+  port: 5003
+
+env:
+  JWT_SECRET: "my_key"
+
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+ingress:
+  enabled: true
+  host: "search-service.example.com"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls: true
+  tlsSecret: "search-service-tls"
+
+podLabels:
+  app: search-service
+  environment: search-dev
+  team: search-backend
+  version: v1.0.0
