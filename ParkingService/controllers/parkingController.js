@@ -90,7 +90,13 @@ exports.concludeParking = async (request, result) => {
 
   try {
     const parkingEntry = await Parking.findOne({ email });
-    expiredEntries = [parkingEntry]
+
+    if (!parkingEntry) {
+      console.log('No parking session found for email:', email);
+      return result.status(404).json({ message: 'Parking session not found' });
+    }
+
+    const expiredEntries = [parkingEntry]
 
     for (const entry of expiredEntries) {
       const receiptData = {

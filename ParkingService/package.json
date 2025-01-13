@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "messageWorker.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js"
   },
   "keywords": [],
@@ -24,5 +24,8 @@
     "passport-jwt": "^4.0.1",
     "swagger-ui-express": "^5.0.1",
     "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
