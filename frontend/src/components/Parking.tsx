@@ -85,8 +85,7 @@ const Parking: React.FC<ParkingProps> = ({ isLoggedIn, token }) => {
             <strong>Name:</strong> {parkingData?.tags?.name || "Unknown"}
           </p>
           <p>
-            <strong>City:</strong>{" "}
-            {parkingData?.tags?.["addr:city"] || "Not specified"}
+            <strong>City:</strong> {parkingData?.tags?.["addr:city"]}
           </p>
           <p>
             <strong>Street:</strong>{" "}

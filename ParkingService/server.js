@@ -10,6 +10,10 @@ const YAML = require('yaml')
 const file  = fs.readFileSync('./swagger.yaml', 'utf8')
 const swaggerDocument = YAML.parse(file)
 
+const { graphqlHTTP } = require("express-graphql");
+const schema = require("./graphql/schema");
+const resolvers = require("./graphql/resolvers");
+
 dotenv.config();
 
 const app = express();
@@ -23,6 +27,16 @@ connectDB();
 
 app.use('/api/parking', parkingRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    rootValue: resolvers,
+    graphiql: true,
+  })
+);
 
 var passport = require('passport')
 var JwtStrategy = require('passport-jwt').Strategy;

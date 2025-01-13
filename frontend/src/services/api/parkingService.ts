@@ -38,3 +38,23 @@ export const endActiveParking = async (token: string): Promise<void> => {
     );
   }
 };
+
+export const updateParkingDuration = async (
+  token: string,
+  data: { duration: number }
+): Promise<any> => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/update`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("Error updating parking duration:", error);
+    throw new Error(
+      error.response?.data?.message || "Failed to update parking duration."
+    );
+  }
+};

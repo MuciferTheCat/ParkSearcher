@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, Tab, Container, Modal, Button } from "react-bootstrap";
+import { Tabs, Tab, Container, Modal, Button, Form } from "react-bootstrap";
 import { fetchPayments } from "../services/api/paymentService";
-import { endActiveParking } from "../services/api/parkingService";
+import {
+  endActiveParking,
+  updateParkingDuration,
+} from "../services/api/parkingService";
 import { Payment } from "../services/types/payment";
 
 interface Parking {
@@ -24,6 +27,8 @@ const UserProfile: React.FC<UserProfileProps> = ({
   token,
 }) => {
   const [activeParking, setActiveParking] = useState<Parking | null>(null);
+  const [newEndTime, setNewEndTime] = useState<string>("");
+  const [isEditingTime, setIsEditingTime] = useState<boolean>(false);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -60,6 +65,26 @@ const UserProfile: React.FC<UserProfileProps> = ({
     fetchUserPayments();
   }, [token]);
 
+  useEffect(() => {
+    if (activeParking) {
+      const now = new Date();
+      const end = new Date(activeParking.endTime);
+      const remainingTime = end.getTime() - now.getTime();
+
+      if (remainingTime > 0) {
+        const timeout = setTimeout(() => {
+          setActiveParking(null);
+          alert("Your parking session has ended.");
+        }, remainingTime);
+
+        return () => clearTimeout(timeout);
+      } else {
+        setActiveParking(null);
+        alert("Your parking session has ended.");
+      }
+    }
+  }, [activeParking]);
+
   const calculateRemainingDuration = (endTime: string): string => {
     const now = new Date();
     const end = new Date(endTime);
@@ -78,6 +103,41 @@ const UserProfile: React.FC<UserProfileProps> = ({
       alert("Parking ended successfully.");
     } catch (err) {
       alert("Failed to end parking. Please try again.");
+    }
+  };
+
+  const handleUpdateDuration = async () => {
+    if (!newEndTime) {
+      alert("Please select a new end time.");
+      return;
+    }
+
+    const selectedEndTime = new Date(newEndTime);
+    const now = new Date();
+
+    if (selectedEndTime <= now) {
+      alert("End time cannot be before the current time.");
+      return;
+    }
+
+    const duration = Math.ceil(
+      (selectedEndTime.getTime() -
+        new Date(activeParking!.startTime).getTime()) /
+        60000
+    );
+
+    try {
+      const updatedParking = await updateParkingDuration(token, { duration });
+      if (updatedParking) {
+        setActiveParking(updatedParking); // Immediately update active parking in state
+        setIsEditingTime(false);
+        setNewEndTime(""); // Reset input
+        alert("Parking duration updated successfully."); // Notify user
+      } else {
+        alert("Failed to update parking duration. Please try again.");
+      }
+    } catch (err) {
+      alert("Error updating parking duration. Please try again.");
     }
   };
 
@@ -126,12 +186,55 @@ const UserProfile: React.FC<UserProfileProps> = ({
                   <strong>Remaining Time:</strong>{" "}
                   {calculateRemainingDuration(activeParking.endTime)}
                 </p>
-                <button
-                  className="btn btn-danger mt-3"
+                {isEditingTime ? (
+                  <>
+                    <Form.Group controlId="formEndTime" className="mt-3">
+                      <Form.Label>New End Time</Form.Label>
+                      <Form.Control
+                        type="datetime-local"
+                        value={newEndTime}
+                        onChange={(e) => setNewEndTime(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Button
+                      style={{
+                        backgroundColor: "#89daff", // Soft greenish-blue
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "5px",
+                      }}
+                      className="mt-4"
+                      onClick={handleUpdateDuration}
+                    >
+                      Confirm Changes
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    style={{
+                      backgroundColor: "#8f95d3", // Lavender-like color
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "5px",
+                    }}
+                    className="mt-4"
+                    onClick={() => setIsEditingTime(true)}
+                  >
+                    Change Time
+                  </Button>
+                )}
+                <Button
+                  style={{
+                    backgroundColor: "#ff4d4d", // Red
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                  className="mt-4 ms-2"
                   onClick={handleEndParking}
                 >
                   End Parking
-                </button>
+                </Button>
               </div>
             ) : (
               <p>No active parking session found.</p>
@@ -179,7 +282,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
               <b>Email:</b> {selectedPayment.email}
             </p>
             <p>
-              <b>Amount:</b> {selectedPayment.amount} EUR
+              <b>Amount:</b> {(selectedPayment.amount / 100).toFixed(2)} EUR
             </p>
             <p>
               <b>Date:</b> {new Date(selectedPayment.date).toLocaleString()}
