@@ -28,7 +28,7 @@ const Register: React.FC = () => {
       setSuccess("Registration successful! Redirecting to login...");
       setError(null);
       setTimeout(() => {
-        navigate("/login"); // Redirect after 3 seconds
+        navigate("/login");
       }, 3000);
     } catch (err) {
       if (err instanceof Error) {

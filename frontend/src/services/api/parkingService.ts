@@ -2,26 +2,24 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_PARKING_SERVICE_URL;
 
-export const createParking = async (
-  parkplaceID: string,
-  carRegistration: string,
-  duration: number,
-  token: string
-) => {
-  const response = await axios.post(`${API_BASE_URL}/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      parkplaceID,
-      carRegistration,
-      duration,
-    }),
-  });
-  return response.data;
+export const createParking = async (parkplaceID: string, carRegistration: string, duration: number, token: string): Promise<any> => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/create`,
+      {
+        parkplaceID,
+        carRegistration,
+        duration,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to create parking session.");
+  }
 };
 
 export const endActiveParking = async (token: string): Promise<void> => {
@@ -56,5 +54,16 @@ export const updateParkingDuration = async (
     throw new Error(
       error.response?.data?.message || "Failed to update parking duration."
     );
+  }
+};
+
+export const getActiveParking = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/parking/get`, {
+      withCredentials: true
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to fetch active parking");
   }
 };

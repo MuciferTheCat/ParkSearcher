@@ -3,13 +3,13 @@ export interface Coordinates {
   lon: number;
 }
 export interface ParkingSpace {
-  id: string; // Unique identifier for the parking space
-  center: Coordinates; // Geographical center of the parking space
-  tags: Record<string, string>; // Additional information about the parking space
+  id: string;
+  center: Coordinates;
+  tags: Record<string, string>;
 }
 
 export interface ParkingSearchResponse {
-  parkingSpaces: ParkingSpace[]; // Array of parking spaces returned by the API
+  parkingSpaces: ParkingSpace[];
 }
 
 export interface ParkingDetails {
@@ -31,9 +31,17 @@ export interface ParkingProps {
   token: string;
 }
 
-export interface ParkingData {
+// export interface ParkingData {
+//   parkplaceID: string;
+//   carRegistration: string;
+//   duration: number;
+//   token: string;
+// }
+
+export interface Parking {
   parkplaceID: string;
   carRegistration: string;
   duration: number;
-  token: string;
+  endTime: string;
+  startTime: string;
 }

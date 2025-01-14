@@ -4,15 +4,15 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 
 interface HeaderProps {
   isLoggedIn: boolean;
-  onLogout: () => void; // Logout function passed from App
+  onLogout: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ isLoggedIn, onLogout }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    onLogout(); // Call the parent function to reset state
-    navigate("/"); // Redirect to home page
+    onLogout();
+    navigate("/");
   };
 
   return (
@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onLogout }) => {
           className="fw-bold"
           style={{
             color: "#58504A",
-            fontSize: "2rem", // Adjusted title size
+            fontSize: "2rem",
             letterSpacing: "1px",
           }}
         >

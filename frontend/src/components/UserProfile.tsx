@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Tabs, Tab, Container, Modal, Button, Form } from "react-bootstrap";
+import { getActiveParking } from '../services/api/parkingService';
 import { fetchPayments } from "../services/api/paymentService";
 import {
   endActiveParking,
   updateParkingDuration,
 } from "../services/api/parkingService";
 import { Payment } from "../services/types/payment";
-
-interface Parking {
-  parkplaceID: string;
-  carRegistration: string;
-  duration: number;
-  endTime: string;
-  startTime: string;
-}
-
-interface UserProfileProps {
-  username: string;
-  email: string;
-  token: string;
-}
+import { Parking } from "../services/types/parking";
+import { UserProfileProps } from "../services/types/user";
 
 const UserProfile: React.FC<UserProfileProps> = ({
   username,
@@ -35,19 +24,14 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   const fetchActiveParking = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/parking/get", {
-        method: "GET",
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setActiveParking(data);
-      } else {
-        setActiveParking(null);
-      }
+      const data = await getActiveParking();
+      setActiveParking(data);
     } catch (err) {
-      setError("Failed to fetch active parking data.");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Failed to fetch active parking data.");
+      }
     }
   };
 
@@ -56,7 +40,11 @@ const UserProfile: React.FC<UserProfileProps> = ({
       const fetchedPayments = await fetchPayments(token);
       setPayments(fetchedPayments);
     } catch (err) {
-      setError("Failed to fetch payments. Please try again.");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Failed to fetch payments. Please try again.");
+      }
     }
   };
 
@@ -98,8 +86,8 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   const handleEndParking = async () => {
     try {
-      await endActiveParking(token); // Call the service
-      setActiveParking(null); // Clear active parking from state
+      await endActiveParking(token);
+      setActiveParking(null);
       alert("Parking ended successfully.");
     } catch (err) {
       alert("Failed to end parking. Please try again.");
@@ -123,16 +111,16 @@ const UserProfile: React.FC<UserProfileProps> = ({
     const duration = Math.ceil(
       (selectedEndTime.getTime() -
         new Date(activeParking!.startTime).getTime()) /
-        60000
+      60000
     );
 
     try {
       const updatedParking = await updateParkingDuration(token, { duration });
       if (updatedParking) {
-        await fetchActiveParking(); // Immediately update active parking in state
+        await fetchActiveParking();
         setIsEditingTime(false);
-        setNewEndTime(""); // Reset input
-        alert("Parking duration updated successfully."); // Notify user
+        setNewEndTime("");
+        alert("Parking duration updated successfully.");
       } else {
         alert("Failed to update parking duration. Please try again.");
       }
@@ -198,7 +186,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     </Form.Group>
                     <Button
                       style={{
-                        backgroundColor: "#89daff", // Soft greenish-blue
+                        backgroundColor: "#89daff",
                         color: "#fff",
                         border: "none",
                         borderRadius: "5px",
@@ -212,7 +200,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                 ) : (
                   <Button
                     style={{
-                      backgroundColor: "#8f95d3", // Lavender-like color
+                      backgroundColor: "#8f95d3",
                       color: "#fff",
                       border: "none",
                       borderRadius: "5px",
@@ -225,7 +213,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                 )}
                 <Button
                   style={{
-                    backgroundColor: "#ff4d4d", // Red
+                    backgroundColor: "#ff4d4d",
                     color: "#fff",
                     border: "none",
                     borderRadius: "5px",
