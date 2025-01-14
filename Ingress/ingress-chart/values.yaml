@@ -1,0 +1,14 @@
+host: "park-searcher.com"
+services:
+  - path: /user-service
+    name: user-service-user-service-chart
+    port: 5000
+  - path: /parking-service
+    name: user-parking-user-parking-chart
+    port: 5001
+  - path: /payment-service
+    name: user-payment-user-payment-chart
+    port: 5002
+  - path: /search-service
+    name: user-search-user-search-chart
+    port: 5003

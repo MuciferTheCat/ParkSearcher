@@ -1,0 +1,4 @@
+apiVersion: v2
+name: ingress-chart
+description: A Helm chart to manage the shared ingress for all microservices
+version: 0.1.0
