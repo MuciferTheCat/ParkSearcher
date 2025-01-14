@@ -4,11 +4,11 @@ services:
     name: user-service-user-service-chart
     port: 5000
   - path: /parking-service
-    name: user-parking-user-parking-chart
+    name: parking-service-parking-service-chart
     port: 5001
   - path: /payment-service
-    name: user-payment-user-payment-chart
+    name: payment-service-payment-service-chart
     port: 5002
   - path: /search-service
-    name: user-search-user-search-chart
+    name: search-service-search-service-chart
     port: 5003

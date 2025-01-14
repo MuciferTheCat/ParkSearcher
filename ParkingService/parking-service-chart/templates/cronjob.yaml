@@ -6,8 +6,12 @@ metadata:
     {{- include "parking-service.labels" . | nindent 4 }}
 spec:
   schedule: "{{ .Values.cronjob.schedule }}"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 100
       template:
         metadata:
           labels:
