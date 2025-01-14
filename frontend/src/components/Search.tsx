@@ -126,7 +126,7 @@ const Map: React.FC = () => {
               value={city}
               onChange={(e) => {
                 setCity(e.target.value);
-                setUseGeolocation(false);
+                //setUseGeolocation(false);
               }}
               style={styles.input}
               disabled={useGeolocation}

@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/api/userService";
-import { LoginData, AuthResponse } from "../services/types/user";
-
-interface LoginProps {
-  onLogin: (token: string, username: string, email: string) => void;
-}
+import { LoginData, AuthResponse, LoginProps } from "../services/types/user";
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [formData, setFormData] = useState<LoginData>({

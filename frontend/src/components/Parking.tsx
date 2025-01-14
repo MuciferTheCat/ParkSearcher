@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CSSProperties } from "react";
 import { ParkingDetails, ParkingProps } from "../services/types/parking";
+import { createParking } from "../services/api/parkingService";
 
 const Parking: React.FC<ParkingProps> = ({ isLoggedIn, token }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Extract parking data from navigation state
   const { parkingData }: { parkingData: ParkingDetails } = location.state || {};
 
   const [useCurrentTime, setUseCurrentTime] = useState<boolean>(true);
@@ -19,10 +19,9 @@ const Parking: React.FC<ParkingProps> = ({ isLoggedIn, token }) => {
   const [error, setError] = useState<string | null>(null);
   const [showPrompt, setShowPrompt] = useState<boolean>(false);
 
-  // Automatically set default end time (1 hour after start time)
   useEffect(() => {
     const current = new Date();
-    const end = new Date(current.getTime() + 60 * 60 * 1000); // 1 hour later
+    const end = new Date(current.getTime() + 60 * 60 * 1000);
     setEndTime(end.toISOString().slice(0, 16));
   }, []);
 
@@ -47,26 +46,16 @@ const Parking: React.FC<ParkingProps> = ({ isLoggedIn, token }) => {
 
     try {
       const duration =
-        (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000; // Duration in minutes
-      const response = await fetch("http://localhost:5001/api/parking/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          parkplaceID: parkingData.id,
-          carRegistration,
-          duration,
-        }),
-      });
+        (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000;
 
-      if (!response.ok) {
-        throw new Error("Failed to confirm parking.");
-      }
+      await createParking(
+        parkingData.id,
+        carRegistration,
+        duration,
+        token
+      );
 
-      navigate("/profile"); // Redirect to profile after successful parking
+      navigate("/profile");
     } catch (err) {
       setError("Error confirming parking. Please try again.");
     }

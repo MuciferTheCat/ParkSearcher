@@ -21,3 +21,13 @@ export interface AuthResponse {
   username: string;
   jwtoken: string;
 }
+
+export interface LoginProps {
+  onLogin: (token: string, username: string, email: string) => void;
+}
+
+export interface UserProfileProps {
+  username: string;
+  email: string;
+  token: string;
+}
