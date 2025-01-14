@@ -36,7 +36,7 @@ ParkSearcher aims to resolve parking challenges by enabling users to search for 
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Environment**: Visual Studio Code
-- **Tools**: Swagger (API Documentation), Docker (Containerization), Kubernetes (Orchestration), Azure (Deployment), RabbitMQ (Microservice Communication)
+- **Tools**: Swagger (API Documentation), Docker (Containerization), Kubernetes (Orchestration), Azure (Deployment), RabbitMQ (Microservice Communication), Passport.js
 
 ---
 
@@ -143,9 +143,32 @@ A high-level architecture diagram illustrating the microservices and their inter
    - Download kubectl.
    - Download minikube or login into Azure.
    - If using Azure, create a resource group and a Kubernetes cluster.
-   - Deploy each service by executing "helm install <service-name> .\<helm-config-folder-name>\".
+   - Deploy each service by executing "helm install <service-name> .\<helm-config-folder-name>\ -f <values>.yaml".
    - Deploy any aditional tools you need with helm (Required: Traefik, RabbitMQ    NotRequired: Prometheus)
 
-### 9. Testing
+## 9. Testing
    - Move to the folder of the microservice you want to test.
    - Run command 'npm test'.
+
+## 10. Security
+   - Security is done with JWT tokens.
+   - On ceratin routes, there is a security mechanism that does not allow requests without a valid jwt.
+   - We are using Passport.js for that.
+
+## 11. Good Practices
+   - Using ESLint for preetier code.
+   - Folder Structure: Each microservice is separated into its own folder. In its folder there are some important files and then there are folders for model, controller, config and     routes each for their respective file. There is also a folder for helm-chart deployment configuration for that service. 
+   - Version Control: The github repository has a master branch and a dev branch. Master is meant for production and dev is meant for development.
+
+## 12. Future Enhancements
+   - Option for paying directly through the app.
+   - Parking space reservation.
+   - More customization for user profiles.
+
+## 13. Appendix
+   - Glossary: JWT - Json Web Token.
+   - References: 
+     - https://github.com/
+     - https://www.rabbitmq.com/
+     - https://azure.microsoft.com/en-us/
+     - https://www.passportjs.org/
