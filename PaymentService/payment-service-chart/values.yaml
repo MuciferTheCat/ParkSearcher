@@ -28,11 +28,13 @@ autoscaling:
 
 ingress:
   enabled: true
-  host: "payment-service.example.com"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  tls: true
-  tlsSecret: "payment-service-tls"
+  className: ""
+  annotations: {}
+  hosts:
+    - host: park-searcher.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
 
 podLabels:
   app: payment-service

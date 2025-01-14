@@ -11,7 +11,6 @@ service:
 env:
   JWT_SECRET: "my_key"
 
-
 autoscaling:
   enabled: true
   minReplicas: 2
@@ -21,11 +20,13 @@ autoscaling:
 
 ingress:
   enabled: true
-  host: "search-service.example.com"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  tls: true
-  tlsSecret: "search-service-tls"
+  className: ""
+  annotations: {}
+  hosts:
+    - host: park-searcher.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
 
 podLabels:
   app: search-service

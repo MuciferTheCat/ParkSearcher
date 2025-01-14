@@ -14,5 +14,5 @@ spec:
     {{- with .Values.podLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-  ports:
-    - port: {{ .Values.service.port }}
+  #ports:
+  #  - port: {{ .Values.service.port }}

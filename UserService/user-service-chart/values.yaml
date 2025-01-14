@@ -1,5 +1,8 @@
 replicaCount: 1
 
+nameOverride: ""
+fullnameOverride: ""
+
 image:
   repository: andrazsovinec/user-service
   tag: v1
@@ -27,9 +30,19 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 ingress:
-  enabled: false
-  host: "user-service.example.com"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  tls: true
-  tlsSecret: "user-service-tls"
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: park-searcher.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
