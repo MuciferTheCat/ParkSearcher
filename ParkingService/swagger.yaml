@@ -122,6 +122,38 @@ paths:
         500:
           description: Server error
 
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Get service health status
+      description: Returns the health status of the ParkingService
+      responses:
+        200:
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: up
+                  timestamp:
+                    type: string
+                    format: date-time
+                  service:
+                    type: string
+                    example: ParkingService
+                  mongoDb:
+                    type: string
+                    example: connected
+                  uptime:
+                    type: number
+                    example: 3600
+        503:
+          description: Service is unhealthy
+
 components:
   securitySchemes:
     bearerAuth:

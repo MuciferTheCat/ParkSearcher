@@ -2,12 +2,11 @@ const express = require('express');
 const cookies = require('cookie-parser')
 const cors = require('cors')
 const dotenv = require('dotenv');
-//const connectDB = require('./config/db');
 const searchRoutes = require('./routes/searchRoutes');
 const swaggerUi = require("swagger-ui-express");
 const fs = require("fs")
 const YAML = require('yaml')
-const file  = fs.readFileSync('./swagger.yaml', 'utf8')
+const file = fs.readFileSync('./swagger.yaml', 'utf8')
 const swaggerDocument = YAML.parse(file)
 
 dotenv.config();
@@ -19,32 +18,24 @@ app.use(cors())
 
 app.use(cookies())
 
-//connectDB();
-
 app.use('/api/search', searchRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-/*
-var passport = require('passport')
-var JwtStrategy = require('passport-jwt').Strategy;
-var opts = {}
-var cookieExtractor = function(req) {
-  var token = null;
-  if (req && req.cookies) {
-    console.log(req.cookies)
-    token = req.cookies['jwt'];
+app.get('/health', (req, res) => {
+  const healthcheck = {
+    status: 'up',
+    timestamp: new Date(),
+    service: 'SearchService',
+    uptime: process.uptime()
+  };
+
+  try {
+    res.status(200).json(healthcheck);
+  } catch (error) {
+    healthcheck.status = 'down';
+    healthcheck.error = error;
+    res.status(503).json(healthcheck);
   }
-  return token;
-};
-opts.jwtFromRequest = cookieExtractor;
-opts.secretOrKey = process.env.JWT_SECRET;
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-  if (jwt_payload){
-    return done(null, jwt_payload)
-  }else{
-    return done(null, false)
-  }
-}));
-*/
+});
 
 const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => {
