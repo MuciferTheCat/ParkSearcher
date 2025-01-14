@@ -27,10 +27,10 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 ingress:
-  enabled: true
-  host: "user-service.example.com" # Replace with your domain name
+  enabled: false
+  host: "user-service.example.com"
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Optional, for TLS
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
   tls: true
   tlsSecret: "user-service-tls" # Secret name for HTTPS
 
