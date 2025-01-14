@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "user-service.fullname" . }}
+  name: {{ include "frontend-service.fullname" . }}
   labels:
-    {{- include "user-service.labels" . | nindent 4 }}
+    {{- include "frontend-service.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -27,11 +27,11 @@ spec:
     {{- range .Values.ingress.hosts }}
     - http:
         paths:
-          - path: /api/user
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ include "user-service.fullname" $ }}
+                name: {{ include "frontend-service.fullname" $ }}
                 port:
                   number: {{ $.Values.service.port }}
     {{- end }}

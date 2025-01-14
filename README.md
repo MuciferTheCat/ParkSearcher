@@ -35,7 +35,8 @@ ParkSearcher aims to resolve parking challenges by enabling users to search for 
 - **Frontend**: React, Bootstrap
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
-- **Tools**: Swagger (API Documentation), Docker (Containerization), Kubernetes (Orchestration)
+- **Environment**: Visual Studio Code
+- **Tools**: Swagger (API Documentation), Docker (Containerization), Kubernetes (Orchestration), Azure (Deployment), RabbitMQ (Microservice Communication)
 
 ---
 
@@ -95,3 +96,56 @@ A high-level architecture diagram illustrating the microservices and their inter
 5. **User Profile**:
    - Displays user details, active parking sessions, and payment history.
    - Allows users to update their information or end active parking sessions.
+  
+## 6. Backend Services
+
+### 6.1 APIs
+   - API documentation is done in swagger.
+
+### 6.2 Database
+
+    Schema Details: Provide details about the database schema (tables/collections, fields, relationships).
+    Data Flow: Explain how data flows between the backend and frontend.
+
+### 6.3 Error Handling
+
+    Document the error codes and their meanings (e.g., 400 Bad Request, 404 Not Found, 500 Server Error).
+
+### 6.4 Logging
+
+    Describe the logging setup (e.g., using Winston or another logger) and what types of events are logged.
+
+## 7. Frontend
+
+### 7.1 Components
+
+    List major components (e.g., Login, Register, Map, UserProfile, Parking).
+    Provide an overview of each component’s purpose and where it fits into the workflow.
+
+### 7.2 Styling
+
+    Describe how styling is managed (e.g., CSS, Bootstrap).
+    Provide any specific design guidelines or color schemes.
+
+## 8. DevOps
+
+### 8.1 Local Development
+   - Clone the repository.
+   - Install dependencies using npm install.
+   - Set up .env files for environment variables.
+   - Run services using npm start or Docker.
+
+### 8.2 Docker
+   - Install docker desktop.
+   - Login into dockerhub (if you want to rebuild images).
+
+### 8.3 Deployment
+   - Download kubectl.
+   - Download minikube or login into Azure.
+   - If using Azure, create a resource group and a Kubernetes cluster.
+   - Deploy each service by executing "helm install <service-name> .\<helm-config-folder-name>\".
+   - Deploy any aditional tools you need with helm (Required: Traefik, RabbitMQ    NotRequired: Prometheus)
+
+### 9. Testing
+   - Move to the folder of the microservice you want to test.
+   - Run command 'npm test'.

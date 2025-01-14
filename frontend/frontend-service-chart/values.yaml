@@ -10,11 +10,13 @@ service:
 
 ingress:
   enabled: true
-  host: "park-searcher.com"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  tls: true
-  tlsSecret: "frontend-service-tls"
+  className: ""
+  annotations: {}
+  hosts:
+    - host: park-searcher.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
 
 podLabels:
   app: frontend-service
