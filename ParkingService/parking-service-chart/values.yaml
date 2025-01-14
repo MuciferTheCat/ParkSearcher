@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: andrazsovinec/parking-service
+  repository: muciferthecat/parking-service
   tag: v1
   pullPolicy: Always
 
@@ -39,6 +39,24 @@ podLabels:
   environment: parking-dev
   team: parking-backend
   version: v1.0.0
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5001
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 5001
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
 
 cronjob:
   schedule: "*/1 * * * *"

@@ -8,7 +8,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const swaggerUi = require("swagger-ui-express");
 const fs = require("fs")
 const YAML = require('yaml')
-const file  = fs.readFileSync('./swagger.yaml', 'utf8')
+const file = fs.readFileSync('./swagger.yaml', 'utf8')
 const listenForUserEvents = require('./messageWorker');
 const swaggerDocument = YAML.parse(file)
 
@@ -24,16 +24,32 @@ app.use(cookies())
 connectDB();
 
 listenForUserEvents()
-    .then(() => console.log('RabbitMQ worker started successfully'))
-    .catch((error) => console.error('Failed to start RabbitMQ worker:', error));
+  .then(() => console.log('RabbitMQ worker started successfully'))
+  .catch((error) => console.error('Failed to start RabbitMQ worker:', error));
 
 app.use('/api/payment', paymentRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/health', (req, res) => {
+  const healthcheck = {
+    status: 'up',
+    timestamp: new Date(),
+    service: 'PaymentService',
+    uptime: process.uptime()
+  };
+
+  try {
+    res.status(200).json(healthcheck);
+  } catch (error) {
+    healthcheck.status = 'down';
+    healthcheck.error = error;
+    res.status(503).json(healthcheck);
+  }
+});
 
 var passport = require('passport')
 var JwtStrategy = require('passport-jwt').Strategy;
 var opts = {}
-var cookieExtractor = function(req) {
+var cookieExtractor = function (req) {
   var token = null;
   if (req && req.cookies) {
     //console.log(req.cookies)
@@ -43,10 +59,10 @@ var cookieExtractor = function(req) {
 };
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET;
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-  if (jwt_payload){
+passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+  if (jwt_payload) {
     return done(null, jwt_payload)
-  }else{
+  } else {
     return done(null, false)
   }
 }));

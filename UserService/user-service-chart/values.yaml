@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: andrazsovinec/user-service
+  repository: muciferthecat/user-service
   tag: v1
   pullPolicy: Always
 
@@ -28,8 +28,26 @@ autoscaling:
 
 ingress:
   enabled: true
-  host: "user-service.example.com"  # Replace with your domain name
+  host: "user-service.example.com" # Replace with your domain name
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod" # Optional, for TLS
   tls: true
-  tlsSecret: "user-service-tls"  # Secret name for HTTPS
+  tlsSecret: "user-service-tls" # Secret name for HTTPS
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3

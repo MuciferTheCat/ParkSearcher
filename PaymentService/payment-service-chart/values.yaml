@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: andrazsovinec/payment-service
+  repository: muciferthecat/payment-service
   tag: v1
   pullPolicy: Always
 
@@ -39,3 +39,21 @@ podLabels:
   environment: payment-dev
   team: payment-backend
   version: v1.0.0
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5002
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 5002
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3

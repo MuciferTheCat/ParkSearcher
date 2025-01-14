@@ -58,8 +58,22 @@ connectDB().then(() => {
 app.use('/api/user', userRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get("api/user", (req, res) => {
-  res.send("User endpoint is working!");
+app.get('/health', (req, res) => {
+  const healthcheck = {
+    status: 'up',
+    timestamp: new Date(),
+    service: 'UserService',
+    mongoDb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    uptime: process.uptime()  // Add this line if you want system uptime
+  };
+
+  try {
+    res.status(200).json(healthcheck);
+  } catch (error) {
+    healthcheck.status = 'down';
+    healthcheck.error = error;
+    res.status(503).json(healthcheck);
+  }
 });
 
 var passport = require('passport')

@@ -36,3 +36,7 @@ spec:
           value: "mongodb://{{ .Release.Name }}-mongodb-service:27017/"
         - name: JWT_SECRET
           value: "{{ .Values.env.JWT_SECRET }}"
+        livenessProbe:
+          {{- toYaml .Values.livenessProbe | nindent 12 }}
+        readinessProbe:
+          {{- toYaml .Values.readinessProbe | nindent 12 }}
