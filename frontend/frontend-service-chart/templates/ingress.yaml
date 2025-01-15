@@ -23,16 +23,9 @@ spec:
       secretName: {{ .secretName }}
     {{- end }}
   {{- end }}
-  rules:
-    {{- range .Values.ingress.hosts }}
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ include "frontend-service.fullname" $ }}
-                port:
-                  number: {{ $.Values.service.port }}
-    {{- end }}
+  defaultBackend:
+    service:
+      name: frontend-service-frontend-service-chart
+      port:
+        number: 3000
 {{- end }}
