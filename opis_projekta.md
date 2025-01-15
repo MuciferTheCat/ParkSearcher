@@ -48,6 +48,12 @@ Backend aplikacije je narejen z Javascript, frontend pa s Typescript. Za program
 ## 8. Primeri uporabe
 
 - **Registracija:** uporabnik kreira nov račun z uporabniškim imenom, emailom in geslom; podatki se shranijo v podatkovno bazo
-- ****
+- **Iskanje parkirnih mest** uporabnik na podlagi svoje ali vnesene lokacije najdel bližnja parkirna mesta in njihove podatke
+- **Parkiranje** uporabnik si določi čas parkiranja, parkirišče in registersko številko avta, ki se nato vnesejo v padotkovno bazo, ko mu parkiranje poteče se mu v podatkovno bazo mikrostoritve Payments vnesejo podatki o ceni
 
 ## 9. Seznam opravljenih/vključenih osnovnih in dodatnih projektnih zahtev
+
+- **Repozitorij:** za izdelavo rojekta sva uporabljala platformo github
+- **Mikrostoritve in »cloud-native« aplikacija:** aplikacija je sestavljena iz večih mikrostoritev, vsaka ima svojo podatkovno bazo, dostopne so preko API endpointov
+- **Dokumentacija:** dokumentacija je napisana v 'opis_projekta.md'
+- **Namestitev v oblak:** aplikacija je javno dostopna na Azure 
