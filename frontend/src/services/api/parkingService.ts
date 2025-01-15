@@ -2,9 +2,15 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_PARKING_SERVICE_URL;
 
-export const createParking = async (parkplaceID: string, carRegistration: string, duration: number, token: string): Promise<any> => {
+export const createParking = async (
+  parkplaceID: string,
+  carRegistration: string,
+  duration: number,
+  token: string
+): Promise<any> => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/create`,
+    const response = await axios.post(
+      `${API_BASE_URL}/create`,
       {
         parkplaceID,
         carRegistration,
@@ -18,7 +24,9 @@ export const createParking = async (parkplaceID: string, carRegistration: string
     );
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || "Failed to create parking session.");
+    throw new Error(
+      error.response?.data?.message || "Failed to create parking session."
+    );
   }
 };
 
@@ -59,11 +67,13 @@ export const updateParkingDuration = async (
 
 export const getActiveParking = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/parking/get`, {
-      withCredentials: true
+    const response = await axios.get(`${API_BASE_URL}/get`, {
+      withCredentials: true,
     });
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || "Failed to fetch active parking");
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch active parking"
+    );
   }
 };
