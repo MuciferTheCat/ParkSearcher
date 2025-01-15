@@ -67,3 +67,6 @@ Backend aplikacije je narejen z Javascript, frontend pa s Typescript. Za program
 - **Sporočilni sistemi:** komunikacija med parking in payment mikrostoritvami s pomočjo RabbitMQ, deluje lokalno, na azure pa ima RabitMQ server nekakšne težave
 - **Centralizirano beleženje dnevnikov:** uporaba Logs funkcionalnosti na AKS za osnovno zbiranje centralizirano zbiranje dnevnikov
 - **Zbiranje metrik:** uporaba funkcionalnosti Metrics na AKS, nastavljeno obveščanje preko outlooka
+
+Dodatne točke:
+- **Ingress Controller:** Traefik in ingress.yaml konfiguracije za posamezne mikrostoritve.
