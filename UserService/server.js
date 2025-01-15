@@ -64,7 +64,7 @@ app.get('/health', (req, res) => {
     timestamp: new Date(),
     service: 'UserService',
     mongoDb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-    uptime: process.uptime()  // Add this line if you want system uptime
+    uptime: process.uptime()
   };
 
   try {

@@ -4,7 +4,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 image:
-  repository: muciferthecat/user-service
+  repository: andrazsovinec/user-service
   tag: v1
   pullPolicy: Always
 
