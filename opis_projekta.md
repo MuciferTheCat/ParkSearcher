@@ -56,4 +56,14 @@ Backend aplikacije je narejen z Javascript, frontend pa s Typescript. Za program
 - **Repozitorij:** za izdelavo rojekta sva uporabljala platformo github
 - **Mikrostoritve in »cloud-native« aplikacija:** aplikacija je sestavljena iz večih mikrostoritev, vsaka ima svojo podatkovno bazo, dostopne so preko API endpointov
 - **Dokumentacija:** dokumentacija je napisana v 'opis_projekta.md'
-- **Namestitev v oblak:** aplikacija je javno dostopna na Azure 
+- **Namestitev v oblak:** aplikacija je javno dostopna na Azure
+- **Grafični vmesnik:** 
+- **API dokumentacija:**
+- **Cevovod CI/CD:** implementirano z github actions, ni preverjeno delovanje (zmanjkalo časa), konfiguracija v '.github' mapi
+- **Helm charts:** vsaka mikrostoritev ima v mapi <ime-storitve>-service-chart konfiguracijo za deployment z helm-charts
+- **»Serverless« funkcija:** z uporabo azure functions smo implementirali iskanje parkirišč glede na GPS lokacijo (iz nekega razloga ne deluje, ko je postavljena na azure, deluje pa lokalno)
+- **Zunanji API:** implementiran zunanji API Overpass-API za iskanje parkirnih mest v okolici
+- **Preverjanje zdravja:** 
+- **Sporočilni sistemi:** komunikacija med parking in payment mikrostoritvami s pomočjo RabbitMQ, deluje lokalno, na azure pa ima RabitMQ server nekakšne težave
+- **Centralizirano beleženje dnevnikov:** uporaba Logs funkcionalnosti na AKS za osnovno zbiranje centralizirano zbiranje dnevnikov
+- **Zbiranje metrik:** uporaba funkcionalnosti Metrics na AKS, nastavljeno obveščanje preko outlooka

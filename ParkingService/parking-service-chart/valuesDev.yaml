@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: muciferthecat/parking-service
+  repository: andrazsovinec/parking-service
   tag: v1
   pullPolicy: Always
 
