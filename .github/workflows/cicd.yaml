@@ -1,0 +1,74 @@
+name: CI/CD
+on:
+  push:
+    tags:
+      - "*.*.*"
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Test UserService
+        run: |
+          cd UserService
+          npm test
+          cd ..
+
+      - name: Test ParkingService
+        run: |
+          cd ParkingService
+          npm test
+          cd ..
+
+      - name: Test PaymentService
+        run: |
+          cd PaymentService
+          npm test
+          cd ..
+
+      - name: Test SearchService
+        run: |
+          cd SearchService
+          npm test
+          cd ..
+  Build-and-Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ParkSearcher
+          cluster-name: ParkSearcherCluster
+          subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Build and publish Docker image
+        run: |
+          cd frontend
+          helm install frontend-service .\frontend-service-chart\ -f frontend-service-chart\valuesProd.yaml
+          cd ..
+          cd UserService
+          helm install user-service .\user-service-chart\ -f user-service-chart\valuesProd.yaml
+          cd ..
+          cd ParkingService
+          helm install parking-service .\parking-service-chart\ -f parking-service-chart\valuesProd.yaml
+          cd ..
+          cd PaymentService
+          helm install payment-service .\payment-service-chart\ -f payment-service-chart\valuesProd.yaml
+          cd ..
+          cd SearchService
+          helm install search-service .\search-service-chart\ -f search-service-chart\valuesProd.yaml

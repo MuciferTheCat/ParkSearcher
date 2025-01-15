@@ -123,13 +123,32 @@ A high-level architecture diagram illustrating the microservices and their inter
 API documentation is done in Swagger and can accessed at `/api`.
 
 ### Database
+   
+   Users:   
+      -username (String)
+      -password (String)
+      -email (String)
+      -isAdmin (Boolean)
+   
+   Parkings:
+      -parkplaceID (String)  
+      -email (String)
+      -carRegistration (String)
+      -duration (Number)
+      -startTime (Date)
+      -endTime (Date)
+      -price (Number)
 
-    Schema Details: Provide details about the database schema (tables/collections, fields, relationships).
-    Data Flow: Explain how data flows between the backend and frontend.
+   Payments:
+      -email (String)
+      -amount (Number)
+      -date (Date)
+      -isActive (Boolean)
 
 ### Error Handling
 
-    Document the error codes and their meanings (e.g., 400 Bad Request, 404 Not Found, 500 Server Error).
+   - 500 Server Error: There was an error when the code was executing on the server
+   - 400 Bad Request: The request parameters were wrong. They were either reffering to an entry that does not exist in the database or tried using a unique identifier that is already in the database when creating a new entry.
 
 ## 5. Frontend
 
