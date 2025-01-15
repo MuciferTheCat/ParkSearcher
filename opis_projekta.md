@@ -47,23 +47,25 @@ Backend aplikacije je narejen z Javascript, frontend pa s Typescript. Za program
 
 ## 8. Primeri uporabe
 
-- **Registracija:** uporabnik kreira nov račun z uporabniškim imenom, emailom in geslom; podatki se shranijo v podatkovno bazo
-- **Iskanje parkirnih mest** uporabnik na podlagi svoje ali vnesene lokacije najdel bližnja parkirna mesta in njihove podatke
-- **Parkiranje** uporabnik si določi čas parkiranja, parkirišče in registersko številko avta, ki se nato vnesejo v padotkovno bazo, ko mu parkiranje poteče se mu v podatkovno bazo mikrostoritve Payments vnesejo podatki o ceni
+- **Registracija:** Uporabnik kreira nov račun z uporabniškim imenom, emailom in geslom; podatki se shranijo v podatkovno bazo.
+- **Prijava:** Uporabnik se prijavi v svoj uporabniški račun, preusmerjen je na svoj uporabniški profil.
+- **Uporabniški profil:** Uporabnik lahko dostopa do aktivnega parkiranja in računov prejšnjih parkiranj.
+- **Iskanje parkirnih mest:** Uporabnik na podlagi svoje ali vnesene lokacije najde bližnja parkirna mesta in njihove podatke. Vnese lahko tudi radius iskanja.
+- **Parkiranje:** Uporabnik si določi čas parkiranja, parkirišče in registersko številko avta, ki se nato vnesejo v padotkovno bazo. Ko mu parkiranje poteče se mu v podatkovno bazo mikrostoritve Payments vnesejo podatki o ceni.
 
 ## 9. Seznam opravljenih/vključenih osnovnih in dodatnih projektnih zahtev
 
-- **Repozitorij:** za izdelavo rojekta sva uporabljala platformo github
-- **Mikrostoritve in »cloud-native« aplikacija:** aplikacija je sestavljena iz večih mikrostoritev, vsaka ima svojo podatkovno bazo, dostopne so preko API endpointov
-- **Dokumentacija:** dokumentacija je napisana v 'opis_projekta.md'
-- **Namestitev v oblak:** aplikacija je javno dostopna na Azure
-- **Grafični vmesnik:** 
-- **API dokumentacija:**
-- **Cevovod CI/CD:** implementirano z github actions, ni preverjeno delovanje (zmanjkalo časa), konfiguracija v '.github' mapi
-- **Helm charts:** vsaka mikrostoritev ima v mapi <ime-storitve>-service-chart konfiguracijo za deployment z helm-charts
-- **»Serverless« funkcija:** z uporabo azure functions smo implementirali iskanje parkirišč glede na GPS lokacijo (iz nekega razloga ne deluje, ko je postavljena na azure, deluje pa lokalno)
-- **Zunanji API:** implementiran zunanji API Overpass-API za iskanje parkirnih mest v okolici
-- **Preverjanje zdravja:** 
-- **Sporočilni sistemi:** komunikacija med parking in payment mikrostoritvami s pomočjo RabbitMQ, deluje lokalno, na azure pa ima RabitMQ server nekakšne težave
-- **Centralizirano beleženje dnevnikov:** uporaba Logs funkcionalnosti na AKS za osnovno zbiranje centralizirano zbiranje dnevnikov
-- **Zbiranje metrik:** uporaba funkcionalnosti Metrics na AKS, nastavljeno obveščanje preko outlooka
+- **Repozitorij (obvezno):** za izdelavo projekta sva uporabljala platformo Github.
+- **Mikrostoritve in »cloud-native« aplikacija (obvezno):** aplikacija je sestavljena iz več mikrostoritev, vsaka ima svojo podatkovno bazo, dostopne so preko API endpointov.
+- **Dokumentacija (obvezno):** projekt je dokumentiran v datoteki `Documentation.pdf`.
+- **Namestitev v oblak (obvezno):** aplikacija je javno dostopna na Azure.
+- **Grafični vmesnik (obvezno):** za grafični vmesnik sta bila uporabljena React in Typescript. Implementirane so vse funkcionalnosti.
+- **API dokumentacija:** za API dokumentacijo je bil uporabljen Swagger.
+- **Cevovod CI/CD:** implementirano z Github Actions, ni preverjeno delovanje (zmanjkalo časa), konfiguracija v `.github` mapi.
+- **Helm charts:** vsaka mikrostoritev ima v mapi `<ime-storitve>-service-chart` konfiguracijo za deployment z helm-charts.
+- **»Serverless« funkcija:** z uporabo azure functions smo implementirali iskanje parkirišč glede na GPS lokacijo (iz nekega razloga ne deluje, ko je postavljena na Azure, deluje pa lokalno).
+- **Zunanji API:** implementiran zunanji API Overpass-API za iskanje parkirnih mest v okolici.
+- **Preverjanje zdravja:** preverja povezavo z bazo in stanje vsake mikrostoritve.
+- **Sporočilni sistemi:** komunikacija med Parking in Payment mikrostoritvami s pomočjo RabbitMQ, deluje lokalno, na azure pa ima RabitMQ server nekakšne težave.
+- **Centralizirano beleženje dnevnikov:** uporaba Logs funkcionalnosti na AKS za osnovno zbiranje centralizirano zbiranje dnevnikov.
+- **Zbiranje metrik:** uporaba funkcionalnosti Metrics na AKS, nastavljeno obveščanje preko Outlook.
