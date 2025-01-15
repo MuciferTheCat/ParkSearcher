@@ -1,0 +1,32 @@
+replicaCount: 1
+
+image:
+  repository: andrazsovinec/frontend
+  tag: v1
+  pullPolicy: Always
+
+service:
+  port: 3000
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: park-searcher.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+podLabels:
+  app: frontend-service
+  environment: frontend-dev
+  team: frontend
+  version: v1.0.0
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80

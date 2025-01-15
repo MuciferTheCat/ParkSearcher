@@ -1,0 +1,63 @@
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: andrazsovinec/user-service
+  tag: v1
+  pullPolicy: Always
+
+service:
+  port: 5000
+
+mongodb:
+  #uri: "mongodb://mongodb-service:27017/"
+  storageSize: 5Gi
+  replicaCount: 1
+
+env:
+  JWT_SECRET: "J3BG8hi51msf5"
+
+persistentVolume:
+  hostPath: /data/mongodb
+
+persistence:
+  enabled: true
+  existingClaim: ""
+  size: 5Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: park-searcher.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3

@@ -1,0 +1,61 @@
+replicaCount: 1
+
+image:
+  repository: muciferthecat/payment-service
+  tag: v1
+  pullPolicy: Always
+
+service:
+  port: 5002
+
+mongodb:
+  #uri: "mongodb://mongodb-service:27017/"
+  storageSize: 5Gi
+  replicaCount: 1
+
+env:
+  JWT_SECRET: "J3BG8hi51msf5"
+
+persistentVolume:
+  hostPath: /data/mongodb
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: park-searcher.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+podLabels:
+  app: payment-service
+  environment: payment-dev
+  team: payment-backend
+  version: v1.0.0
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5002
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 5002
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
