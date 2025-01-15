@@ -1,37 +1,50 @@
-## 1. Title Page
+## PROJECT DOCUMENTATION
 
 ### Project Name
+
 **ParkSearcher**
 
 ### Overview
+
 ParkSearcher is a parking management application designed to simplify parking space search, beginning and ending of parking, and payment processing. Built using a microservices architecture, it ensures modularity and scalability, providing users with seamless parking experiences.
 
 ### Date and Version
+
 - **Version**: 1.0.0
 - **Last Updated**: January 2025
 
 ---
 
-## 2. Table of Contents
-1. Title Page
-2. Table of Contents
-3. Introduction
-4. Architecture
-5. Application Workflow
+## Table of Contents
+
+1. [Introduction](#1-introduction)
+2. [Architecture](#2-architecture)
+3. [Application Workflow](#3-application-workflow)
+4. [Backend Services](#4-backend-services)
+5. [Frontend](#5-frontend)
+6. [DevOps](#6-devops)
+7. [Testing](#7-testing)
+8. [Security](#8-security)
+9. [Good Practices](#9-good-practices)
+10. [Future Enhancements](#10-future-enhancements)
+11. [Appendix](#11-appendix)
 
 ---
 
-## 3. Introduction
+## 1. Introduction
 
 ### Purpose
+
 ParkSearcher aims to resolve parking challenges by enabling users to search for available parking spaces, start parking sessions, and process payments efficiently. The application leverages a microservices architecture to ensure modular development and scalable deployments.
 
 ### Audience
+
 - **Developers**: To understand and contribute to the project.
 - **Stakeholders**: To review technical details and workflows.
 - **Administrators**: To manage payments and parkings.
 
 ### Technologies Used
+
 - **Frontend**: React, Bootstrap
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
@@ -40,21 +53,26 @@ ParkSearcher aims to resolve parking challenges by enabling users to search for 
 
 ---
 
-## 4. Architecture
+## 2. Architecture
 
 ### System Architecture Diagram
+
 A high-level architecture diagram illustrating the microservices and their interactions.
 
 ```
-+------------------+         +-------------------+
-|  UserService     | <-----> |  Authentication   |
-|                  |         +-------------------+
-|                  |
-|  ParkingService  | <-----> |  PaymentService   |
-+------------------+         +-------------------+
+      +------------------+         +-------------------+
+      |  Authentication  | =====>  |    UserService    | <================\\
+      +------------------+         +-------------------+                  ||
+                                             /\                           ||
+                                             ||                           ||
+                                             \/                           \/       
+      +------------------+         +-------------------+         +-------------------+ 
+      |  SearchService   | =====>  |  ParkingService   | <=====> |  PaymentService   |
+      +------------------+         +-------------------+         +-------------------+
 ```
 
 ### Microservices Overview
+
 1. **UserService**:
    - Manages user authentication, registration, and profile information.
 
@@ -68,12 +86,13 @@ A high-level architecture diagram illustrating the microservices and their inter
    - Provides APIs to search for parking spaces based on location and other criteria.
 
 ### Communication
+
 - REST APIs for inter-service communication.
 - JWT tokens or cookies for authentication and session management.
 
 ---
 
-## 5. Application Workflow
+## 3. Application Workflow
 
 ### User Workflows
 
@@ -97,75 +116,80 @@ A high-level architecture diagram illustrating the microservices and their inter
    - Displays user details, active parking sessions, and payment history.
    - Allows users to update their information or end active parking sessions.
   
-## 6. Backend Services
+## 4. Backend Services
 
-### 6.1 APIs
-   - API documentation is done in swagger.
+### APIs
 
-### 6.2 Database
+API documentation is done in Swagger and can accessed at `/api`.
+
+### Database
 
     Schema Details: Provide details about the database schema (tables/collections, fields, relationships).
     Data Flow: Explain how data flows between the backend and frontend.
 
-### 6.3 Error Handling
+### Error Handling
 
     Document the error codes and their meanings (e.g., 400 Bad Request, 404 Not Found, 500 Server Error).
 
-### 6.4 Logging
+## 5. Frontend
 
-    Describe the logging setup (e.g., using Winston or another logger) and what types of events are logged.
+### Components
 
-## 7. Frontend
-
-### 7.1 Components
-
+- `Login`: user can log in to their account
+- `Register`: user can create their account
+- `Search`: map is displayed on the front page of the app. User can chose to how to find pakring place: based on their location or by manually entering the prefered city. In both cases user can provide search radius around central point.
+- `UserProfile`: user can manage their profile. It is devided into two tabs
+  - payments: user can se active (not paid) and no-active (already paid) parkings
+  - active parking: user can manage their active parking. They can change end time or immediately end their active parking.
     List major components (e.g., Login, Register, Map, UserProfile, Parking).
     Provide an overview of each component’s purpose and where it fits into the workflow.
+- `Parking`: user can start their parking. Start and end time can be modified, default value for start time is current time, default value for end time is one hour later
 
-### 7.2 Styling
+### Styling
 
-    Describe how styling is managed (e.g., CSS, Bootstrap).
-    Provide any specific design guidelines or color schemes.
+Styling is done using Bootstrap. The following color scheme was used: `https://coolors.co/dbb1bc-d3c4e3-8f95d3-89daff-58504a`.
 
-## 8. DevOps
+## 6. DevOps
 
-### 8.1 Local Development
-   - Clone the repository.
-   - Install dependencies using npm install.
-   - Set up .env files for environment variables.
-   - Run services using npm start or Docker.
+### Local Development
 
-### 8.2 Docker
-   - Install docker desktop.
-   - Login into dockerhub (if you want to rebuild images).
+- Requirements: Visual Studio Code (or something similar), Docker, Node.js
+- Clone Github repository: `git clone https://github.com/MuciferTheCat/ParkSearcher`
+- Install dependencies using `npm install`.
+- Set up `.env` files for environment variables.
+- Run services using `npm start`.
 
-### 8.3 Deployment
-   - Download kubectl.
-   - Download minikube or login into Azure.
-   - If using Azure, create a resource group and a Kubernetes cluster.
-   - Deploy each service by executing "helm install <service-name> .\<helm-config-folder-name>\ -f <values>.yaml".
-   - Deploy any aditional tools you need with helm (Required: Traefik, RabbitMQ    NotRequired: Prometheus)
+### Deployment
 
-## 9. Testing
-   - Move to the folder of the microservice you want to test.
-   - Run command 'npm test'.
+- Download kubectl.
+- Download minikube or login into Azure.
+- If using Azure, create a resource group and a Kubernetes cluster.
+- Deploy each service by executing `helm install <service-name> .\<helm-config-folder-name>\ -f <values>.yaml`.
+- Deploy any aditional tools you need with helm
+  - Required: Traefik, RabbitMQ
+  - Not required: Prometheus
 
-## 10. Security
-   - Security is done with JWT tokens.
-   - On ceratin routes, there is a security mechanism that does not allow requests without a valid jwt.
-   - We are using Passport.js for that.
+## 7. Testing
 
-## 11. Good Practices
-   - Using ESLint for preetier code.
-   - Folder Structure: Each microservice is separated into its own folder. In its folder there are some important files and then there are folders for model, controller, config and     routes each for their respective file. There is also a folder for helm-chart deployment configuration for that service. 
-   - Version Control: The github repository has a master branch and a dev branch. Master is meant for production and dev is meant for development.
+Testing can be done localy. Move to the folder of the prefered microservice and run `npm test`.
 
-## 12. Future Enhancements
-   - Option for paying directly through the app.
-   - Parking space reservation.
-   - More customization for user profiles.
+## 8. Security
 
-## 13. Appendix
+Security is done with JWT tokens. On certain routes there is a security mechanism that doesn't allow requests without a valid JWT. Passport.js was used for that.
+
+## 9. Good Practices
+
+- ESLint was used for prettier code.
+- Each microservice is seperated into its own folder, which contain important files. Within each microservice there are seperate folders model, controller, config and routes. It also contains folder for helm-chart deployment. Frontend is implemented in seperate folder, same for serverless function.
+- Version Control: the Github repository has master and dev branch. Master is used for production and dev is used for development.
+
+## 10. Future Enhancements
+
+- Option for paying directly through the app.
+- Parking space reservation.
+- More customization for user profiles.
+
+## 11. Appendix
    - Glossary: JWT - Json Web Token.
    - References: 
      - https://github.com/
